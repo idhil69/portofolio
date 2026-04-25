@@ -1,0 +1,268 @@
+{
+  "profile": {
+    "name": "Muh. Rahmadhan Aidil Fadly RM",
+    "avatarUrl": "/uploads/1777134613549_cropped.jpg",
+    "bannerUrl": "/uploads/1777134600839_cropped.jpg",
+    "bioPrefix": "",
+    "bioSuffix": ". Dalam proses kerja, saya mengutamakan storytelling yang kuat dan visual yang menarik."
+  },
+  "portfolio": [
+    {
+      "id": "v-edit",
+      "title": "Video Konten Edukasi DiskominfoSP",
+      "icon": "Film",
+      "items": [
+        {
+          "name": "Ragam Morowali",
+          "link": "https://www.youtube.com/watch?v=qeVRIitWFAw",
+          "description": "Di Balik Tangan Terampil Pengrajin Sapu Ijuk di Desa Sakita"
+        },
+        {
+          "name": "Ragam Morowali",
+          "link": "https://www.youtube.com/watch?v=CJJd5geR73w",
+          "description": "Layanan Jemput Bola DisDukcapil Morowali"
+        },
+        {
+          "name": "Ragam Morowali",
+          "link": "https://youtu.be/9SxuVk0IMvo",
+          "description": "Pojok Baca Digital Literasi Di Setiap Sudut Kota"
+        },
+        {
+          "name": "Ragam Morowali",
+          "link": "https://youtu.be/dSw6VWSL9rc",
+          "description": "ANTIK DAN CANTIK, CERITA DI SETIAP POLESAN"
+        },
+        {
+          "name": "Ragam Morowali",
+          "link": "https://youtu.be/dECoRk_9kyQ",
+          "description": "INDAHNYA PESONA HUTAN MANGROVE DI IBU KOTA MOROWALI"
+        },
+        {
+          "name": "Ragam Morowali",
+          "link": "https://youtu.be/ojLTgCg7yxc",
+          "description": "JALINAN WARNA BATIK AMIMOR"
+        },
+        {
+          "name": "BISA Bincang Santai",
+          "link": "https://youtu.be/rUAC2V--ILk",
+          "description": "Komunikasi Lewat Chat atau Telepon, Mana Lebih Efektif?"
+        },
+        {
+          "name": "BISA Bincang Santai",
+          "link": "https://youtu.be/vDPu2c2XHFE",
+          "description": "TREN FASHION YANG AKAN RAMAI DI TAHUN 2025"
+        },
+        {
+          "name": "BISA Bincang Santai",
+          "link": "https://youtu.be/AGCl7avy1g8",
+          "description": "4 MANFAAT MEMILIKI PERENCANAAN BISNIS YANG MATANG"
+        },
+        {
+          "name": "Motivasi & Inspirasi",
+          "link": "https://youtu.be/CWKHVWSKk8c",
+          "description": "Melewati Rintangan Meraih Mimpi - Kisah Inspiratif S2"
+        },
+        {
+          "name": "Motivasi & Inspirasi",
+          "link": "https://youtu.be/L9aK58YHIco",
+          "description": "PROSES BELAJAR MENGAJAR PENYANDANG DISABILITAS"
+        },
+        {
+          "name": "INOVASI PENANGANAN STUNTING",
+          "link": "https://youtu.be/JaYEEFS156g",
+          "description": "Penanganan Stunting"
+        },
+        {
+          "name": "MOROWALI SMART CITY",
+          "link": "https://youtu.be/kbzDp6qhD9o",
+          "description": "VIRTUAL EXHIBITION 07 - 21 DESEMBER 2023"
+        },
+        {
+          "name": "Motion Graphics",
+          "link": "https://www.tiktok.com/@aflyrics666/video/7520585749025000711",
+          "description": "TikTok Content"
+        }
+      ]
+    },
+    {
+      "id": "short-video",
+      "title": "Short Video",
+      "icon": "Smartphone",
+      "isVertical": true,
+      "items": [
+        {
+          "name": "Infinite Creatives",
+          "link": "https://drive.google.com/file/d/1gM5leJf8LnUTjzjTCylXqV4mdp87d8Pz/view",
+          "description": "Branding"
+        },
+        {
+          "name": "Kupas Lagu AFlyrics",
+          "link": "https://drive.google.com/file/d/150V7UIAMOUc2YyvwV_xde5WVaK8XnFbX/view",
+          "description": "Jinjer - Band Metal Ukraina"
+        },
+        {
+          "name": "Kupas Lagu AFlyrics",
+          "link": "https://www.tiktok.com/@aflyrics666/video/7524973665457343749",
+          "description": "Penyelamat generasi hancur"
+        },
+        {
+          "name": "Kue Pia Jungke",
+          "link": "https://drive.google.com/file/d/150V7UIAMOUc2YyvwV_xde5WVaK8XnFbX/view",
+          "description": "Product Branding"
+        }
+      ]
+    },
+    {
+      "id": "branding",
+      "title": "Branding & Identity",
+      "icon": "Fingerprint",
+      "items": [
+        {
+          "name": "Kue Pia Jungke",
+          "link": "#",
+          "description": "Product Branding"
+        },
+        {
+          "name": "Logo Design",
+          "link": "#",
+          "description": "Corporate Identity"
+        },
+        {
+          "name": "Brand Guidelines",
+          "link": "#",
+          "description": "Style Guide"
+        }
+      ]
+    },
+    {
+      "id": "graphic-design",
+      "title": "Graphic Design",
+      "icon": "PenTool",
+      "items": [
+        {
+          "name": "Poster Project",
+          "link": "#",
+          "description": "Layout Design"
+        },
+        {
+          "name": "Social Media Content",
+          "link": "#",
+          "description": "Content Design"
+        },
+        {
+          "name": "Print Materials",
+          "link": "#",
+          "description": "Print Design"
+        },
+        {
+          "name": "Digital Art",
+          "link": "#",
+          "description": "Illustrations"
+        }
+      ]
+    }
+  ],
+  "documentation": [
+    "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=600&h=600&fit=crop",
+    "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=600&h=600&fit=crop",
+    "https://images.unsplash.com/photo-1471341971476-ae15ff5dd4ea?w=600&h=600&fit=crop",
+    "https://media.licdn.com/dms/image/v2/D5603AQEkRcKMcCq8dw/profile-displayphoto-scale_400_400/B56Z2cDF6aH4Ag-/0/1776439557250?e=1778716800&v=beta&t=a555EwO0WkS_axy-OM5EUUWYOVvKggsGx84uiIi6gho",
+    "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600&h=600&fit=crop",
+    "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=600&h=600&fit=crop",
+    "https://media.licdn.com/dms/image/v2/D5603AQEkRcKMcCq8dw/profile-displayphoto-scale_400_400/B56Z2cDF6aH4Ag-/0/1776439557250?e=1778716800&v=beta&t=a555EwO0WkS_axy-OM5EUUWYOVvKggsGx84uiIi6gho"
+  ],
+  "skills": {
+    "main": [
+      {
+        "name": "Adobe Premiere Pro",
+        "level": 95,
+        "icon": "Film",
+        "color": "from-purple-500 to-pink-500"
+      },
+      {
+        "name": "Adobe Illustrator",
+        "level": 90,
+        "icon": "PenTool",
+        "color": "from-orange-500 to-yellow-500"
+      }
+    ],
+    "additional": [
+      {
+        "name": "Adobe Photoshop",
+        "level": 88,
+        "icon": "ImageIcon",
+        "color": "from-blue-500 to-cyan-500"
+      },
+      {
+        "name": "Adobe Lightroom",
+        "level": 85,
+        "icon": "SlidersHorizontal",
+        "color": "from-cyan-400 to-blue-400"
+      },
+      {
+        "name": "DaVinci Resolve",
+        "level": 80,
+        "icon": "Palette",
+        "color": "from-green-500 to-emerald-500"
+      },
+      {
+        "name": "Live Streaming (VMix/OBS)",
+        "level": 85,
+        "icon": "Radio",
+        "color": "from-red-500 to-pink-500"
+      }
+    ]
+  },
+  "certifications": [
+    {
+      "year": "2022",
+      "title": "Graphic Design Editor",
+      "issuer": "Video Grafis TVRI Palu",
+      "icon": "Award",
+      "color": "primary",
+      "borderColor": "border-l-primary"
+    },
+    {
+      "year": "2024",
+      "title": "Video Content Creator Mastery",
+      "issuer": "Digitalent Kominfo",
+      "icon": "Video",
+      "color": "accent",
+      "borderColor": "border-l-accent"
+    },
+    {
+      "year": "2021",
+      "title": "Juru Gambar Kelas I",
+      "issuer": "LPJK Arsitektur",
+      "icon": "Compass",
+      "color": "purple-500",
+      "borderColor": "border-l-purple-500"
+    }
+  ],
+  "socialMedia": [
+    {
+      "platform": "YouTube",
+      "url": "https://youtube.com/@AFLyrics666",
+      "icon": "Youtube"
+    },
+    {
+      "platform": "Instagram",
+      "url": "https://instagram.com/idhil.f",
+      "icon": "Instagram"
+    },
+    {
+      "platform": "LinkedIn",
+      "url": "https://www.linkedin.com/in/muh-rahmadhan-aidil-fadly-6194b623a",
+      "icon": "Linkedin"
+    },
+    {
+      "platform": "TikTok",
+      "url": "https://tiktok.com/@kochenghitam66",
+      "icon": "TikTokIcon"
+    }
+  ],
+  "credentials": {
+    "username": "admin",
+    "password": "admin123"
+  }
+}
