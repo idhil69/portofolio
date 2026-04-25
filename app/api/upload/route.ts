@@ -10,10 +10,17 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "No file received." }, { status: 400 });
     }
 
-    // Upload to Vercel Blob
+    const token = process.env.BLOB_READ_WRITE_TOKEN;
+    if (!token) {
+      console.error("Missing BLOB_READ_WRITE_TOKEN in environment variables");
+      return NextResponse.json({ error: "Server error: Token penyimpanan tidak ditemukan." }, { status: 500 });
+    }
+
+    // Upload to Vercel Blob with explicit token
     const blob = await put(file.name, file, {
       access: 'public',
-      addRandomSuffix: true, // Prevents overwriting files with the same name
+      token: token,
+      addRandomSuffix: true,
     });
 
     return NextResponse.json({ message: "Success", url: blob.url });
