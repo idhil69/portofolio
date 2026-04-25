@@ -1,6 +1,5 @@
+import { put } from "@vercel/blob";
 import { NextResponse } from "next/server";
-import { promises as fs } from "fs";
-import path from "path";
 
 export async function POST(request: Request) {
   try {
@@ -11,28 +10,16 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "No file received." }, { status: 400 });
     }
 
-    const buffer = Buffer.from(await file.arrayBuffer());
-    // Create a safe filename with timestamp
-    const filename = Date.now() + "_" + file.name.replace(/[^a-zA-Z0-9.]/g, "_");
-    
-    // Ensure the uploads directory exists
-    const uploadDir = path.join(process.cwd(), "public/uploads");
-    try {
-      await fs.access(uploadDir);
-    } catch {
-      await fs.mkdir(uploadDir, { recursive: true });
-    }
+    // Upload to Vercel Blob
+    const blob = await put(file.name, file, {
+      access: 'public',
+      addRandomSuffix: true, // Prevents overwriting files with the same name
+    });
 
-    // Write file to public/uploads
-    const filePath = path.join(uploadDir, filename);
-    await fs.writeFile(filePath, buffer);
-
-    // Return the public URL for the image
-    const fileUrl = `/uploads/${filename}`;
-    
-    return NextResponse.json({ message: "Success", url: fileUrl });
+    return NextResponse.json({ message: "Success", url: blob.url });
   } catch (error) {
     console.error("Upload error:", error);
-    return NextResponse.json({ error: "Upload failed." }, { status: 500 });
+    return NextResponse.json({ error: "Upload failed. Pastikan BLOB_READ_WRITE_TOKEN sudah dikonfigurasi di Vercel." }, { status: 500 });
   }
 }
+
