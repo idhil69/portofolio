@@ -311,8 +311,8 @@ function PortfolioCarousel({ category }: { category: PortfolioCategory }) {
       <div
         ref={scrollRef}
         className={`${isGridView
-            ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-            : "carousel-mode no-scrollbar px-2 py-4"
+          ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+          : "carousel-mode no-scrollbar px-2 py-4"
           }`}
       >
         {category.items.map((item, index) => {
@@ -331,8 +331,8 @@ function PortfolioCarousel({ category }: { category: PortfolioCategory }) {
             >
               <div
                 className={`slide-card-inner relative block overflow-hidden rounded-xl border border-border/30 bg-card shadow-md ${category.isVertical
-                    ? "aspect-[9/16] md:aspect-[3/4]"
-                    : "aspect-video"
+                  ? "aspect-[9/16] md:aspect-[3/4]"
+                  : "aspect-video"
                   }`}
               >
                 {/* Image */}
