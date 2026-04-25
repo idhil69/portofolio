@@ -24,9 +24,12 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json({ message: "Success", url: blob.url });
-  } catch (error) {
-    console.error("Upload error:", error);
-    return NextResponse.json({ error: "Upload failed. Pastikan BLOB_READ_WRITE_TOKEN sudah dikonfigurasi di Vercel." }, { status: 500 });
+  } catch (error: any) {
+    console.error("Upload error details:", error);
+    return NextResponse.json({ 
+      error: `Upload failed: ${error.message || "Unknown error"}`,
+      details: error.toString()
+    }, { status: 500 });
   }
 }
 
