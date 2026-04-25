@@ -14,12 +14,20 @@ const navLinks = [
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [profile, setProfile] = useState<any>(null)
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50)
     }
     window.addEventListener("scroll", handleScroll)
+
+    // Fetch profile for logo
+    fetch('/api/data')
+      .then(res => res.json())
+      .then(data => setProfile(data.profile))
+      .catch(err => console.error("Failed to load logo", err))
+
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
@@ -29,11 +37,10 @@ export function Navbar() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          isScrolled
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled
             ? "bg-background/80 backdrop-blur-xl border-b border-border/50 shadow-lg"
             : "bg-transparent"
-        }`}
+          }`}
       >
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
@@ -45,9 +52,13 @@ export function Navbar() {
             >
               <motion.div
                 whileHover={{ scale: 1.1, rotate: 5 }}
-                className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center text-primary-foreground font-bold text-lg shadow-lg shadow-primary/30"
+                className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center text-primary-foreground font-bold text-lg shadow-lg shadow-primary/30 overflow-hidden"
               >
-                AF
+                {profile?.logoUrl ? (
+                  <img src={profile.logoUrl} alt="Logo" className="w-full h-full object-cover" />
+                ) : (
+                  "AF"
+                )}
               </motion.div>
               <span className="hidden sm:block font-bold text-lg group-hover:text-primary transition-colors">
                 Aidil Fadly

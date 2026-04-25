@@ -33,8 +33,10 @@ export function ReviewsSection() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    // In a real app, you'd send this to a backend
-    window.location.href = `mailto:muhrahmadhanaidilfadly@gmail.com?subject=Review Portofolio Baru!&body=Nama: ${formData.name}%0ARating: ${formData.rating}%0APesan: ${formData.message}`
+    // Directing to Gmail/Email Client with pre-filled content
+    const subject = encodeURIComponent(`Feedback Portofolio - ${formData.name}`)
+    const body = encodeURIComponent(`Nama: ${formData.name}\nRating: ${formData.rating}/5\nPesan: ${formData.message}`)
+    window.location.href = `mailto:muhrahmadhanaidilfadly@gmail.com?subject=${subject}&body=${body}`
   }
 
   return (

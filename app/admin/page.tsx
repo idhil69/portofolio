@@ -274,6 +274,19 @@ export default function AdminPage() {
                   </div>
                 </div>
                 <div className="space-y-2">
+                  <Label>Navbar Logo Image (1:1 Aspect Ratio)</Label>
+                  <div className="flex items-center gap-4">
+                    {data.profile.logoUrl && <img src={data.profile.logoUrl} alt="Logo" className="w-12 h-12 rounded-xl object-cover border" />}
+                    <div className="flex-1">
+                      <Input type="file" accept="image/*" onChange={(e) => handleFileSelectForCrop(e, "logoUrl", 1)} />
+                      <p className="text-[10px] text-muted-foreground mt-1">Logo ini akan menggantikan tulisan "AF" di navbar.</p>
+                    </div>
+                    {data.profile.logoUrl && (
+                      <Button variant="ghost" size="sm" onClick={() => updateProfile("logoUrl", "")} className="text-red-500 hover:text-red-600 hover:bg-red-50">Reset to "AF"</Button>
+                    )}
+                  </div>
+                </div>
+                <div className="space-y-2">
                   <Label>Banner Image (3:1 Aspect Ratio)</Label>
                   <div className="flex flex-col gap-2">
                     {data.profile.bannerUrl && <img src={data.profile.bannerUrl} alt="Banner" className="w-full h-24 object-cover rounded-md border" />}
