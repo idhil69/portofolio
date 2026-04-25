@@ -262,6 +262,14 @@
       "icon": "TikTokIcon"
     }
   ],
+  "reviews": [
+    {
+      "name": "Project Partner",
+      "type": "Government Project",
+      "rating": 5,
+      "message": "Sangat profesional, hasil editing video melebihi ekspektasi kami. Penyampaian pesan dalam visualisasi sangat kuat dan tepat sasaran. Sangat direkomendasikan!"
+    }
+  ],
   "credentials": {
     "username": "admin",
     "password": "admin123"

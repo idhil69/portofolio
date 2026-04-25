@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
-import { Trash2, Plus, Save, LogOut, KeyRound, Eye, EyeOff, CheckCircle2 } from "lucide-react"
+import { Trash2, Plus, Save, LogOut, KeyRound, Eye, EyeOff, CheckCircle2, Star } from "lucide-react"
 import { CropModal } from "@/components/crop-modal"
 import { useRouter } from "next/navigation"
 
@@ -217,6 +217,12 @@ export default function AdminPage() {
     setData({ ...data, certifications: newCerts })
   }
 
+  // Review Updates
+  const removeReview = (index: number) => {
+    const newReviews = data.reviews.filter((_: any, i: number) => i !== index)
+    setData({ ...data, reviews: newReviews })
+  }
+
   return (
     <div className="container max-w-5xl mx-auto py-10 mt-20">
       {cropConfig && (
@@ -246,12 +252,13 @@ export default function AdminPage() {
       </div>
 
       <Tabs defaultValue="profile" className="space-y-6">
-        <TabsList className="grid grid-cols-6 w-full">
+        <TabsList className="grid grid-cols-7 w-full">
           <TabsTrigger value="profile">Profile</TabsTrigger>
           <TabsTrigger value="portfolio">Portfolio</TabsTrigger>
           <TabsTrigger value="documentation">Gallery</TabsTrigger>
           <TabsTrigger value="skills">Skills</TabsTrigger>
           <TabsTrigger value="certifications">Certifications</TabsTrigger>
+          <TabsTrigger value="reviews">Reviews</TabsTrigger>
           <TabsTrigger value="security">Security</TabsTrigger>
         </TabsList>
 
@@ -474,6 +481,40 @@ export default function AdminPage() {
                   </div>
                 </div>
               ))}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="reviews">
+          <Card>
+            <CardHeader>
+              <CardTitle>Moderasi Review Klien</CardTitle>
+              <CardDescription>Hapus komentar yang tidak pantas atau atur urutan testimoni.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {data.reviews && data.reviews.length > 0 ? (
+                data.reviews.map((review: any, index: number) => (
+                  <div key={index} className="flex gap-4 items-start border p-4 rounded-xl relative group">
+                    <div className="flex-1 space-y-1">
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold">{review.name}</span>
+                        <span className="text-[10px] bg-primary/10 px-2 py-0.5 rounded text-primary uppercase font-bold">{review.type}</span>
+                        <div className="flex text-yellow-500">
+                          {[...Array(review.rating)].map((_, i) => <Star key={i} className="w-3 h-3 fill-current" />)}
+                        </div>
+                      </div>
+                      <p className="text-sm text-muted-foreground italic">&quot;{review.message}&quot;</p>
+                    </div>
+                    <Button variant="ghost" size="icon" onClick={() => removeReview(index)} className="text-red-500 hover:text-red-600 hover:bg-red-50">
+                      <Trash2 className="w-5 h-5" />
+                    </Button>
+                  </div>
+                ))
+              ) : (
+                <div className="text-center py-10 text-muted-foreground border border-dashed rounded-xl">
+                  Belum ada review yang masuk.
+                </div>
+              )}
             </CardContent>
           </Card>
         </TabsContent>

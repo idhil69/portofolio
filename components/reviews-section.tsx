@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useState } from "react"
+import { useRef, useState, useEffect } from "react"
 import { motion, useInView } from "framer-motion"
 import {
   MessageSquare,
@@ -12,31 +12,67 @@ import {
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
-const reviews = [
-  {
-    name: "Project Partner",
-    type: "Government Project",
-    rating: 5,
-    message:
-      "Sangat profesional, hasil editing video melebihi ekspektasi kami. Penyampaian pesan dalam visualisasi sangat kuat dan tepat sasaran. Sangat direkomendasikan!",
-  },
-]
-
 export function ReviewsSection() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const [reviews, setReviews] = useState<any[]>([])
   const [formData, setFormData] = useState({
     name: "",
     rating: "5",
     message: "",
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    fetch('/api/data')
+      .then(res => res.json())
+      .then(data => {
+        if (data.reviews) setReviews(data.reviews)
+      })
+      .catch(err => console.error("Failed to load reviews", err))
+  }, [])
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Directing to Gmail/Email Client with pre-filled content
-    const subject = encodeURIComponent(`Feedback Portofolio - ${formData.name}`)
-    const body = encodeURIComponent(`Nama: ${formData.name}\nRating: ${formData.rating}/5\nPesan: ${formData.message}`)
-    window.location.href = `mailto:muhrahmadhanaidilfadly@gmail.com?subject=${subject}&body=${body}`
+    setIsSubmitting(true)
+
+    try {
+      // 1. Fetch current data
+      const resData = await fetch('/api/data').then(res => res.json())
+      
+      // 2. Add new review
+      const newReview = {
+        name: formData.name,
+        type: "Client Feedback",
+        rating: parseInt(formData.rating),
+        message: formData.message,
+        date: new Date().toISOString()
+      }
+      
+      const updatedData = {
+        ...resData,
+        reviews: [newReview, ...(resData.reviews || [])]
+      }
+
+      // 3. Save to database
+      const saveRes = await fetch('/api/data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedData)
+      })
+
+      if (saveRes.ok) {
+        setReviews(updatedData.reviews)
+        setFormData({ name: "", rating: "5", message: "" })
+        alert("Terima kasih atas feedback Anda!")
+      } else {
+        alert("Gagal mengirim feedback.")
+      }
+    } catch (err) {
+      console.error(err)
+      alert("Terjadi kesalahan koneksi.")
+    }
+    setIsSubmitting(false)
   }
 
   return (
@@ -124,10 +160,17 @@ export function ReviewsSection() {
             {/* Submit Button */}
             <Button
               type="submit"
-              className="w-full bg-gradient-to-r from-primary to-accent text-primary-foreground font-bold py-6 rounded-xl shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:scale-[1.02] active:scale-95 transition-all"
+              disabled={isSubmitting}
+              className="w-full bg-gradient-to-r from-primary to-accent text-primary-foreground font-bold py-6 rounded-xl shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <Send className="w-4 h-4 mr-2" />
-              Kirim Feedback
+              {isSubmitting ? (
+                <>Menunggu...</>
+              ) : (
+                <>
+                  <Send className="w-4 h-4 mr-2" />
+                  Kirim Feedback
+                </>
+              )}
             </Button>
           </form>
         </motion.div>
