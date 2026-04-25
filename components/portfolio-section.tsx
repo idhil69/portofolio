@@ -84,7 +84,7 @@ function getUrlIcon(url: string) {
 const portfolioData: PortfolioCategory[] = [
   {
     id: "v-edit",
-    title: "Video Konten Edukasi DiskominfoSP",
+    title: "Video Konten",
     icon: Film,
     items: [
       {
@@ -310,11 +310,10 @@ function PortfolioCarousel({ category }: { category: PortfolioCategory }) {
       {/* Items */}
       <div
         ref={scrollRef}
-        className={`${
-          isGridView
+        className={`${isGridView
             ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
             : "carousel-mode no-scrollbar px-2 py-4"
-        }`}
+          }`}
       >
         {category.items.map((item, index) => {
           const UrlIcon = getUrlIcon(item.link)
@@ -330,12 +329,11 @@ function PortfolioCarousel({ category }: { category: PortfolioCategory }) {
               style={{ animationDelay: `${index * 100}ms` }}
               className={`slide-card group ${category.isVertical && !isGridView ? "!min-w-[200px] md:!min-w-[250px]" : ""}`}
             >
-                <div
-                className={`slide-card-inner relative block overflow-hidden rounded-xl border border-border/30 bg-card shadow-md ${
-                  category.isVertical
+              <div
+                className={`slide-card-inner relative block overflow-hidden rounded-xl border border-border/30 bg-card shadow-md ${category.isVertical
                     ? "aspect-[9/16] md:aspect-[3/4]"
                     : "aspect-video"
-                }`}
+                  }`}
               >
                 {/* Image */}
                 <Image
