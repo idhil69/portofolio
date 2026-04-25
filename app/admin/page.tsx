@@ -176,6 +176,29 @@ export default function AdminPage() {
   }
 
   // Portfolio Updates
+  const addCategory = () => {
+    const newPortfolio = [...data.portfolio]
+    newPortfolio.push({
+      id: `cat-${Date.now()}`,
+      title: "New Category",
+      icon: "Film",
+      items: []
+    })
+    setData({ ...data, portfolio: newPortfolio })
+  }
+
+  const removeCategory = (index: number) => {
+    if (!confirm("Are you sure you want to delete this entire category and all its items?")) return
+    const newPortfolio = data.portfolio.filter((_: any, i: number) => i !== index)
+    setData({ ...data, portfolio: newPortfolio })
+  }
+
+  const updateCategory = (index: number, field: string, value: string) => {
+    const newPortfolio = [...data.portfolio]
+    newPortfolio[index][field] = value
+    setData({ ...data, portfolio: newPortfolio })
+  }
+
   const addPortfolioItem = (categoryIndex: number) => {
     const newPortfolio = [...data.portfolio]
     newPortfolio[categoryIndex].items.unshift({ name: "New Project", link: "", description: "Description" })
@@ -349,16 +372,46 @@ export default function AdminPage() {
 
         <TabsContent value="portfolio">
           <div className="space-y-6">
+            <div className="flex justify-end">
+              <Button onClick={addCategory} variant="outline" className="gap-2">
+                <Plus className="w-4 h-4" />
+                Add New Category
+              </Button>
+            </div>
+
             {data.portfolio.map((category: any, catIndex: number) => (
               <Card key={catIndex}>
-                <CardHeader className="flex flex-row items-center justify-between">
-                  <div>
-                    <CardTitle>{category.title}</CardTitle>
+                <CardHeader className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                  <div className="flex-1 w-full space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label>Category Title</Label>
+                        <Input 
+                          value={category.title} 
+                          onChange={(e) => updateCategory(catIndex, "title", e.target.value)} 
+                          className="font-bold"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Category Icon (Lucide name)</Label>
+                        <Input 
+                          value={category.icon} 
+                          onChange={(e) => updateCategory(catIndex, "icon", e.target.value)} 
+                          placeholder="Film, Video, Camera, etc."
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <Button variant="outline" size="sm" onClick={() => addPortfolioItem(catIndex)}>
-                    <Plus className="w-4 h-4 mr-2" />Add Item
-                  </Button>
+                  <div className="flex items-center gap-2">
+                    <Button variant="outline" size="sm" onClick={() => addPortfolioItem(catIndex)}>
+                      <Plus className="w-4 h-4 mr-2" />Add Item
+                    </Button>
+                    <Button variant="ghost" size="icon" onClick={() => removeCategory(catIndex)} className="text-red-500 hover:text-red-600 hover:bg-red-50">
+                      <Trash2 className="w-5 h-5" />
+                    </Button>
+                  </div>
                 </CardHeader>
+
                 <CardContent className="space-y-4">
                   {category.items.map((item: any, itemIndex: number) => (
                     <div key={itemIndex} className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 border rounded-xl relative group">

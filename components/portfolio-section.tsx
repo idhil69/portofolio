@@ -7,6 +7,16 @@ import {
   Smartphone,
   Fingerprint,
   PenTool,
+  Video,
+  Image as ImageIcon,
+  Music,
+  Globe,
+  Code,
+  Award,
+  Camera,
+  Layers,
+  Palette,
+  Monitor,
   ChevronLeft,
   ChevronRight,
   ExternalLink,
@@ -84,7 +94,7 @@ function getUrlIcon(url: string) {
 const portfolioData: PortfolioCategory[] = [
   {
     id: "v-edit",
-    title: "Video Konten",
+    title: "video konten",
     icon: Film,
     items: [
       {
@@ -403,6 +413,17 @@ const iconMap: Record<string, any> = {
   Smartphone,
   Fingerprint,
   PenTool,
+  Video,
+  Image: ImageIcon,
+  Music,
+  Globe,
+  Code,
+  Award,
+  SmartphoneIcon: Smartphone,
+  Camera,
+  Layers,
+  Palette,
+  Monitor,
 }
 
 export function PortfolioSection() {
