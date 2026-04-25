@@ -15,7 +15,7 @@ export default function AdminPage() {
   const [data, setData] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
-  const [cropConfig, setCropConfig] = useState<{ imageSrc: string, field: string, aspectRatio: number } | null>(null)
+  const [cropConfig, setCropConfig] = useState<{ imageSrc: string, field: string, aspectRatio: number, extra?: any } | null>(null)
   const router = useRouter()
 
   // Change Password State
@@ -105,12 +105,12 @@ export default function AdminPage() {
     }
   }
 
-  const handleFileSelectForCrop = (e: React.ChangeEvent<HTMLInputElement>, field: string, aspectRatio: number) => {
+  const handleFileSelectForCrop = (e: React.ChangeEvent<HTMLInputElement>, field: string, aspectRatio: number, extra?: any) => {
     const file = e.target.files?.[0]
     if (!file) return
     const reader = new FileReader()
     reader.onload = () => {
-      setCropConfig({ imageSrc: reader.result as string, field, aspectRatio })
+      setCropConfig({ imageSrc: reader.result as string, field, aspectRatio, extra })
     }
     reader.readAsDataURL(file)
   }
@@ -123,7 +123,13 @@ export default function AdminPage() {
       const res = await fetch('/api/upload', { method: 'POST', body: formData })
       const result = await res.json()
       if (res.ok) {
-        updateProfile(cropConfig.field, result.url)
+        if (cropConfig.field === "portfolio") {
+          updatePortfolioItem(cropConfig.extra.catIndex, cropConfig.extra.itemIndex, "image", result.url)
+        } else if (cropConfig.field === "documentation") {
+          updateDocImage(cropConfig.extra.index, result.url)
+        } else {
+          updateProfile(cropConfig.field, result.url)
+        }
       } else {
         alert("Upload failed: " + result.error)
       }
@@ -367,9 +373,17 @@ export default function AdminPage() {
                         <Label>Link URL</Label>
                         <Input value={item.link} onChange={(e) => updatePortfolioItem(catIndex, itemIndex, "link", e.target.value)} />
                       </div>
-                      <div className="space-y-2 md:col-span-2">
+                      <div className="space-y-2">
                         <Label>Description</Label>
                         <Input value={item.description} onChange={(e) => updatePortfolioItem(catIndex, itemIndex, "description", e.target.value)} />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Thumbnail Image (Optional)</Label>
+                        <div className="flex gap-2">
+                          <Input value={item.image || ""} onChange={(e) => updatePortfolioItem(catIndex, itemIndex, "image", e.target.value)} placeholder="Auto from YouTube if empty" />
+                          <Input type="file" accept="image/*" className="hidden" id={`port-img-${catIndex}-${itemIndex}`} onChange={(e) => handleFileSelectForCrop(e, "portfolio", category.isVertical ? 0.75 : 1.77, { catIndex, itemIndex })} />
+                          <Button variant="outline" size="sm" onClick={() => document.getElementById(`port-img-${catIndex}-${itemIndex}`)?.click()}>Upload</Button>
+                        </div>
                       </div>
                     </div>
                   ))}
