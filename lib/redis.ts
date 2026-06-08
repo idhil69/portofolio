@@ -1,9 +1,9 @@
 import { Redis } from "@upstash/redis";
 
-// Helper function to clean quotes and spaces from environment variables
+// Helper function to aggressively clean quotes and spaces from environment variables
 function getCleanEnv(key: string): string {
   const value = process.env[key] || "";
-  return value.replace(/^['"]|['"]$/g, "").trim();
+  return value.replace(/^['"\s]+|['"\s]+$/g, "");
 }
 
 const url = getCleanEnv("UPSTASH_REDIS_REST_URL") || getCleanEnv("KV_REST_API_URL");
