@@ -1,17 +1,17 @@
 import type { Metadata, Viewport } from "next"
-import { Inter, Plus_Jakarta_Sans } from "next/font/google"
+import { Open_Sans, Varela_Round } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 
-const inter = Inter({
+const openSans = Open_Sans({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-open-sans",
 })
 
-const plusJakarta = Plus_Jakarta_Sans({
+const varelaRound = Varela_Round({
   subsets: ["latin"],
-  variable: "--font-jakarta",
-  weight: ["700", "800"],
+  variable: "--font-varela",
+  weight: ["400"],
 })
 
 export const metadata: Metadata = {
@@ -47,7 +47,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="id" className={`${inter.variable} ${plusJakarta.variable}`}>
+    <html lang="id" className={`${openSans.variable} ${varelaRound.variable}`}>
       <body className="font-sans antialiased bg-background text-foreground overflow-x-hidden animate-gradient bg-gradient-to-br from-background via-secondary to-background bg-[length:400%_400%]">
         {children}
         {process.env.NODE_ENV === "production" && <Analytics />}

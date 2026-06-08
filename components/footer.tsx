@@ -1,28 +1,18 @@
-"use client"
+﻿"use client"
 
 import { motion } from "framer-motion"
-import { ArrowUp } from "lucide-react"
 
 export function Footer() {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" })
-  }
-
   return (
-    <footer className="pb-20 pt-10 text-center">
-      <motion.button
-        onClick={scrollToTop}
-        whileHover={{ scale: 1.1, y: -3 }}
-        whileTap={{ scale: 0.95 }}
-        className="w-12 h-12 rounded-full glass flex items-center justify-center mb-6 mx-auto hover:bg-primary hover:text-primary-foreground transition-all"
-        aria-label="Scroll to top"
-      >
-        <ArrowUp className="w-5 h-5" />
-      </motion.button>
-
-      <p className="text-[10px] tracking-[0.4em] uppercase font-medium text-muted-foreground/60">
-        &copy; 2026 Muh. Rahmadhan Aidil Fadly RM
-      </p>
+    <footer className="py-8 text-center bg-[#F3F5F8] dark:bg-[#1a1a1a] border-t border-gray-200 dark:border-gray-800">
+      <div className="container mx-auto px-6">
+        <p className="text-[#8c9398] text-[14px]">
+          All Rights Reserved. &copy; {new Date().getFullYear()}{" "}
+          <a href="#" className="text-[#bf4b4b] hover:text-[#353535] dark:hover:text-white transition-colors border-b border-dashed border-[#bf4b4b]">
+            Muh. Rahmadhan Aidil Fadly RM
+          </a>
+        </p>
+      </div>
     </footer>
   )
 }

@@ -4,31 +4,53 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: oklch(0.09 0.005 270);
-  --foreground: oklch(0.92 0 0);
-  --card: oklch(0.12 0.008 270);
-  --card-foreground: oklch(0.92 0 0);
-  --popover: oklch(0.1 0.005 270);
-  --popover-foreground: oklch(0.92 0 0);
-  --primary: oklch(0.62 0.18 245);
+  --background: oklch(0.98 0 0); /* Light background like John Doe hero (#FBFBFB) */
+  --foreground: oklch(0.2 0 0); /* Dark text (#353535) */
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.2 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.2 0 0);
+  --primary: #bf4b4b; /* Red */
   --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.16 0.008 270);
-  --secondary-foreground: oklch(0.92 0 0);
-  --muted: oklch(0.22 0.008 270);
-  --muted-foreground: oklch(0.55 0 0);
-  --accent: oklch(0.68 0.12 200);
+  --secondary: oklch(0.95 0 0); /* #F3F5F8 */
+  --secondary-foreground: oklch(0.2 0 0);
+  --muted: oklch(0.9 0 0);
+  --muted-foreground: oklch(0.5 0 0); /* #8c8c8c */
+  --accent: oklch(0.9 0.15 95); /* Yellow #FFE800 */
+  --accent-foreground: oklch(0.2 0 0);
+  --destructive: #bf4b4b;
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.8 0 0); /* #CCCCCC */
+  --input: oklch(0.8 0 0);
+  --ring: #bf4b4b;
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: oklch(0.1 0 0); /* Dark background for dark sections */
+  --foreground: oklch(0.95 0 0); /* Light text */
+  --card: oklch(0.15 0 0);
+  --card-foreground: oklch(0.95 0 0);
+  --popover: oklch(0.15 0 0);
+  --popover-foreground: oklch(0.95 0 0);
+  --primary: #bf4b4b; /* Red */
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.2 0 0);
+  --secondary-foreground: oklch(0.95 0 0);
+  --muted: oklch(0.25 0 0);
+  --muted-foreground: oklch(0.7 0 0);
+  --accent: oklch(0.9 0.15 95); /* Yellow #FFE800 */
   --accent-foreground: oklch(0.1 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.95 0 0);
-  --border: oklch(0.22 0.015 270);
-  --input: oklch(0.16 0.008 270);
-  --ring: oklch(0.62 0.18 245);
-  --radius: 0.875rem;
+  --destructive: #bf4b4b;
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.3 0 0);
+  --input: oklch(0.3 0 0);
+  --ring: #bf4b4b;
 }
 
 @theme inline {
-  --font-sans: var(--font-inter), "Inter", system-ui, sans-serif;
-  --font-display: var(--font-jakarta), "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-sans: var(--font-open-sans), "Open Sans", system-ui, sans-serif;
+  --font-display: var(--font-varela), "Varela Round", system-ui, sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);

@@ -1,11 +1,11 @@
 {
   "profile": {
     "name": "Muh. Rahmadhan Aidil Fadly RM",
-    "avatarUrl": "/uploads/1777134613549_cropped.jpg",
-    "bannerUrl": "/uploads/1777134600839_cropped.jpg",
+    "avatarUrl": "https://rk9uettwr0xhwpzl.public.blob.vercel-storage.com/cropped-Cmc8tjiduC52n4P6zXIjVYUw3VwGy9.jpg",
+    "bannerUrl": "https://rk9uettwr0xhwpzl.public.blob.vercel-storage.com/cropped-Cz3LOPwTvE7k4DI4vpptmJMDApzMGw.jpg",
     "logoUrl": "/uploads/1777140332550_cropped.jpg",
-    "bioPrefix": "",
-    "bioSuffix": ". Dalam proses kerja, saya mengutamakan storytelling yang kuat dan visual yang menarik."
+    "bioPrefix": "I'm a Video Editor and Content Creator passionate about crafting engaging visual content with strong storytelling elements. I have experience working on various projects, including social media content, promotional videos, event documentation, and personal branding campaigns. I believe every visual has a story worth telling in the most compelling way possible.",
+    "bioSuffix": "With expertise in video editing, photography, graphic design, and digital content management, I strive to create work that is both visually appealing and purpose-driven. I am comfortable working independently or collaboratively, adapting to diverse project requirements, and continuously learning new creative trends and technologies to deliver the best results."
   },
   "portfolio": [
     {
@@ -92,46 +92,28 @@
       "isVertical": true,
       "items": [
         {
+          "name": "Aqua Kiss Parfume",
+          "link": "https://drive.google.com/file/d/13VaaSYohl0YKHYcb6UdpaNE8UMqwo7eG/view?usp=drive_link",
+          "description": "Branding",
+          "image": "https://rk9uettwr0xhwpzl.public.blob.vercel-storage.com/cropped-smWns4GsFJUlhyGvJg3oyhuZ0oqjKz.jpg"
+        },
+        {
           "name": "Infinite Creatives",
           "link": "https://drive.google.com/file/d/1gM5leJf8LnUTjzjTCylXqV4mdp87d8Pz/view",
-          "description": "Branding"
+          "description": "Branding",
+          "image": "https://rk9uettwr0xhwpzl.public.blob.vercel-storage.com/cropped-1SMnFJbWxZZHx3UQhfKnNyaZWJRh7G.jpg"
         },
         {
           "name": "Kupas Lagu AFlyrics",
           "link": "https://drive.google.com/file/d/150V7UIAMOUc2YyvwV_xde5WVaK8XnFbX/view",
-          "description": "Jinjer - Band Metal Ukraina"
+          "description": "Jinjer - Band Metal Ukraina",
+          "image": "https://rk9uettwr0xhwpzl.public.blob.vercel-storage.com/cropped-rU3E2C7rhzMrXxNGZ1BrlbjgxzFS7J.jpg"
         },
         {
           "name": "Kupas Lagu AFlyrics",
           "link": "https://www.tiktok.com/@aflyrics666/video/7524973665457343749",
-          "description": "Penyelamat generasi hancur"
-        },
-        {
-          "name": "Kue Pia Jungke",
-          "link": "https://drive.google.com/file/d/150V7UIAMOUc2YyvwV_xde5WVaK8XnFbX/view",
-          "description": "Product Branding"
-        }
-      ]
-    },
-    {
-      "id": "branding",
-      "title": "Branding & Identity",
-      "icon": "Fingerprint",
-      "items": [
-        {
-          "name": "Kue Pia Jungke",
-          "link": "#",
-          "description": "Product Branding"
-        },
-        {
-          "name": "Logo Design",
-          "link": "#",
-          "description": "Corporate Identity"
-        },
-        {
-          "name": "Brand Guidelines",
-          "link": "#",
-          "description": "Style Guide"
+          "description": "Penyelamat generasi hancur",
+          "image": "https://rk9uettwr0xhwpzl.public.blob.vercel-storage.com/cropped-d8hfzlETSUsOYSFfGWeNQyPPUFBC8E.jpg"
         }
       ]
     },
@@ -141,36 +123,25 @@
       "icon": "PenTool",
       "items": [
         {
-          "name": "Poster Project",
-          "link": "#",
-          "description": "Layout Design"
+          "name": "Majalah Pembangunan Kab. Morowali 2026",
+          "link": "https://drive.google.com/file/d/1E6lJ5lAusSLFCtnQtkbmWAlJFonbFj0Z/view?usp=drive_link",
+          "description": "Graphic Design",
+          "image": "https://rk9uettwr0xhwpzl.public.blob.vercel-storage.com/cropped-iT01UUcPfHY8A9P0pmQQk2GOzpZ9C3.jpg"
         },
         {
-          "name": "Social Media Content",
-          "link": "#",
-          "description": "Content Design"
-        },
-        {
-          "name": "Print Materials",
-          "link": "#",
-          "description": "Print Design"
-        },
-        {
-          "name": "Digital Art",
-          "link": "#",
-          "description": "Illustrations"
+          "name": "Ucapan Pemerintah Daerah Kab. Morowali",
+          "link": "https://drive.google.com/drive/u/2/folders/1VJnsYrfR0m6xIRjzQHQ6ZOF1R5RXltMa",
+          "description": "Graphic Design",
+          "image": ""
         }
       ]
     }
   ],
   "documentation": [
-    "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=600&h=600&fit=crop",
-    "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=600&h=600&fit=crop",
-    "https://images.unsplash.com/photo-1471341971476-ae15ff5dd4ea?w=600&h=600&fit=crop",
-    "https://media.licdn.com/dms/image/v2/D5603AQEkRcKMcCq8dw/profile-displayphoto-scale_400_400/B56Z2cDF6aH4Ag-/0/1776439557250?e=1778716800&v=beta&t=a555EwO0WkS_axy-OM5EUUWYOVvKggsGx84uiIi6gho",
-    "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600&h=600&fit=crop",
-    "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=600&h=600&fit=crop",
-    "https://media.licdn.com/dms/image/v2/D5603AQEkRcKMcCq8dw/profile-displayphoto-scale_400_400/B56Z2cDF6aH4Ag-/0/1776439557250?e=1778716800&v=beta&t=a555EwO0WkS_axy-OM5EUUWYOVvKggsGx84uiIi6gho"
+    "https://rk9uettwr0xhwpzl.public.blob.vercel-storage.com/1742480032127-IaXqczZU5J6xTaH46cYh5mtBBqcAXW.jpg",
+    "https://rk9uettwr0xhwpzl.public.blob.vercel-storage.com/IMG_20240712_141523-5aH1BHysXQTleUfUYzZPrY3bk7Klho.jpg",
+    "https://rk9uettwr0xhwpzl.public.blob.vercel-storage.com/Picsart_25-01-04_00-53-23-394-HYQyCMIZaHCqpF0WYZNmJdcHaqqQqq.jpg",
+    "https://rk9uettwr0xhwpzl.public.blob.vercel-storage.com/Picsart_25-02-10_18-14-32-657-atyBmOxVhHlrVSt0qHlWfSSHIWSfto.jpg"
   ],
   "skills": {
     "main": [

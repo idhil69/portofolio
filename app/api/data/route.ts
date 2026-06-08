@@ -36,13 +36,27 @@ export async function POST(request: Request) {
   try {
     const newData = await request.json();
     
-    // Save to Upstash Redis
-    await redis.set(KV_KEY, newData);
-    
+    let isSaved = false;
+
     // Attempt local write for dev mode
     try {
       await fs.writeFile(dataFilePath, JSON.stringify(newData, null, 2), "utf8");
-    } catch (e) {}
+      isSaved = true;
+    } catch (e) {
+      console.log("Local write skipped or failed (expected in production).");
+    }
+
+    // Save to Upstash Redis
+    try {
+      await redis.set(KV_KEY, newData);
+      isSaved = true;
+    } catch (e) {
+      console.log("Redis write failed (expected if Redis is not configured locally).");
+    }
+
+    if (!isSaved) {
+      throw new Error("Failed to save to both Local Storage and Redis.");
+    }
 
     return NextResponse.json({ message: "Data updated successfully", data: newData });
   } catch (error: any) {
