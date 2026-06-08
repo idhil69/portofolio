@@ -2,14 +2,32 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { promises as fs } from "fs";
 import path from "path";
+import { Redis } from "@upstash/redis";
+
+const redis = Redis.fromEnv();
+const KV_KEY = "portfolio_data";
 
 export async function POST(request: Request) {
   const { username, password } = await request.json();
 
-  // Read credentials from data.json (dynamic — changes take effect immediately)
   const dataPath = path.join(process.cwd(), "data.json");
-  const raw = await fs.readFile(dataPath, "utf8");
-  const data = JSON.parse(raw);
+  let data: any = null;
+
+  try {
+    data = await redis.get(KV_KEY);
+  } catch (e) {
+    console.error("Redis fetch failed in login:", e);
+  }
+
+  if (!data) {
+    try {
+      const raw = await fs.readFile(dataPath, "utf8");
+      data = JSON.parse(raw);
+    } catch (e) {
+      return NextResponse.json({ error: "Gagal membaca data." }, { status: 500 });
+    }
+  }
+
   const { credentials } = data;
 
   const validUsername = credentials?.username || process.env.ADMIN_USERNAME;

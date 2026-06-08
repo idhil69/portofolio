@@ -2,6 +2,10 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { promises as fs } from "fs";
 import path from "path";
+import { Redis } from "@upstash/redis";
+
+const redis = Redis.fromEnv();
+const KV_KEY = "portfolio_data";
 
 export async function POST(request: Request) {
   // Verify session first
@@ -25,10 +29,24 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Password baru minimal 6 karakter." }, { status: 400 });
   }
 
-  // Read current credentials from data.json
   const dataPath = path.join(process.cwd(), "data.json");
-  const raw = await fs.readFile(dataPath, "utf8");
-  const data = JSON.parse(raw);
+  let data: any = null;
+
+  try {
+    data = await redis.get(KV_KEY);
+  } catch (e) {
+    console.error("Redis fetch failed:", e);
+  }
+
+  if (!data) {
+    try {
+      const raw = await fs.readFile(dataPath, "utf8");
+      data = JSON.parse(raw);
+    } catch (e) {
+      return NextResponse.json({ error: "Gagal membaca data." }, { status: 500 });
+    }
+  }
+
   const currentUsername = data.credentials?.username || process.env.ADMIN_USERNAME;
   const currentStoredPassword = data.credentials?.password || process.env.ADMIN_PASSWORD;
 
@@ -36,12 +54,25 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Password saat ini salah." }, { status: 400 });
   }
 
-  // Update password in data.json
+  // Update password in data
   data.credentials = {
     username: currentUsername,
     password: newPassword,
   };
 
-  await fs.writeFile(dataPath, JSON.stringify(data, null, 2), "utf8");
+  // Save to Redis
+  try {
+    await redis.set(KV_KEY, data);
+  } catch (e) {
+    console.error("Failed to save to Redis:", e);
+  }
+
+  // Attempt local write
+  try {
+    await fs.writeFile(dataPath, JSON.stringify(data, null, 2), "utf8");
+  } catch (e) {
+    console.error("Failed to save locally:", e);
+  }
+
   return NextResponse.json({ success: true, message: "Password berhasil diubah!" });
 }

@@ -52,10 +52,11 @@ export default function AdminPage() {
       if (res.ok) {
         alert("Data saved successfully!")
       } else {
-        alert("Failed to save data.")
+        const result = await res.json()
+        alert("Failed to save data: " + (result.error || "Unknown error"))
       }
     } catch (err) {
-      alert("An error occurred while saving.")
+      alert("An error occurred while saving: " + String(err))
     }
     setSaving(false)
   }

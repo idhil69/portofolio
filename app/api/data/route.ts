@@ -48,9 +48,12 @@ export async function POST(request: Request) {
     } catch (e) {}
 
     return NextResponse.json({ message: "Data updated successfully", data: newData });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Failed to save data:", error);
-    return NextResponse.json({ error: "Failed to save data." }, { status: 500 });
+    return NextResponse.json({ 
+      error: `Failed to save data: ${error.message || "Unknown error"}`,
+      details: error.toString()
+    }, { status: 500 });
   }
 }
 
