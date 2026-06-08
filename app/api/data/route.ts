@@ -1,13 +1,10 @@
 import { NextResponse } from "next/server";
-import { Redis } from "@upstash/redis";
+import { redis } from "@/lib/redis";
 import fs from "fs/promises";
 import path from "path";
 
 const dataFilePath = path.join(process.cwd(), "data.json");
 const KV_KEY = "portfolio_data";
-
-// Initialize Upstash Redis
-const redis = Redis.fromEnv();
 
 export async function GET() {
   try {

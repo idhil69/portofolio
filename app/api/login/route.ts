@@ -2,9 +2,8 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { promises as fs } from "fs";
 import path from "path";
-import { Redis } from "@upstash/redis";
+import { redis } from "@/lib/redis";
 
-const redis = Redis.fromEnv();
 const KV_KEY = "portfolio_data";
 
 export async function POST(request: Request) {
