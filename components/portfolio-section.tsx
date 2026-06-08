@@ -48,8 +48,8 @@ function CategoryBlock({ category, isInView, catIndex }: { category: any, isInVi
         </button>
       </motion.div>
 
-      {/* Grid */}
-      <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-0 w-full max-w-7xl mx-auto bg-white dark:bg-[#111]">
+      {/* Grid - 2 cols on mobile for gallery-like grid, scales up on larger screens */}
+      <motion.div layout className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-0 w-full max-w-7xl mx-auto bg-white dark:bg-[#111]">
         <AnimatePresence mode="popLayout">
           {itemsToShow.map((item: any, index: number) => (
             <motion.div
@@ -72,12 +72,22 @@ function CategoryBlock({ category, isInView, catIndex }: { category: any, isInVi
                 className="object-cover transition-all duration-700 grayscale group-hover:grayscale-0 group-hover:scale-110"
               />
               
-              {/* Hover Overlay */}
-              <div className="absolute inset-0 bg-[#bf4b4b]/90 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col items-center justify-center p-6 text-center z-10">
+              {/* Hover Overlay - Desktop */}
+              <div className="absolute inset-0 bg-[#bf4b4b]/90 opacity-0 group-hover:opacity-100 transition-opacity duration-500 hidden sm:flex flex-col items-center justify-center p-6 text-center z-10">
                 <h3 className="text-white font-bold text-lg uppercase tracking-widest translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                   {item.name}
                 </h3>
                 <p className="text-[#FFE800] text-sm mt-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-75">
+                  {item.description}
+                </p>
+              </div>
+
+              {/* Mobile Overlay - Always visible at bottom */}
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-2 sm:hidden z-10">
+                <h3 className="text-white font-bold text-[10px] uppercase tracking-wider leading-tight line-clamp-1">
+                  {item.name}
+                </h3>
+                <p className="text-[#FFE800] text-[9px] mt-0.5 line-clamp-1">
                   {item.description}
                 </p>
               </div>
