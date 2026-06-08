@@ -5,20 +5,56 @@ export async function POST(request: Request) {
   try {
     const formData = await request.formData();
     const file = formData.get("file") as File;
-    
+
     if (!file) {
-      return NextResponse.json({ error: "No file received." }, { status: 400 });
+      return NextResponse.json(
+        { error: "No file received." },
+        { status: 400 }
+      );
+    }
+
+    // Validate file size (max 4.5MB for Vercel Blob free tier)
+    if (file.size > 4.5 * 1024 * 1024) {
+      return NextResponse.json(
+        { error: "File terlalu besar. Maksimal 4.5MB." },
+        { status: 400 }
+      );
+    }
+
+    // Validate file type
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/gif",
+      "image/webp",
+      "image/svg+xml",
+      "application/pdf",
+      "video/mp4",
+    ];
+    if (!allowedTypes.includes(file.type)) {
+      return NextResponse.json(
+        {
+          error: `Tipe file "${file.type}" tidak didukung. Gunakan JPG, PNG, GIF, WebP, SVG, PDF, atau MP4.`,
+        },
+        { status: 400 }
+      );
     }
 
     const token = process.env.BLOB_READ_WRITE_TOKEN;
     if (!token) {
       console.error("Missing BLOB_READ_WRITE_TOKEN in environment variables");
-      return NextResponse.json({ error: "Server error: Token penyimpanan tidak ditemukan." }, { status: 500 });
+      return NextResponse.json(
+        {
+          error:
+            "Server error: BLOB_READ_WRITE_TOKEN tidak ditemukan. Pastikan environment variable sudah diset di Vercel Dashboard → Settings → Environment Variables.",
+        },
+        { status: 500 }
+      );
     }
 
     // Upload to Vercel Blob with explicit token
     const blob = await put(file.name, file, {
-      access: 'public',
+      access: "public",
       token: token,
       addRandomSuffix: true,
     });
@@ -26,10 +62,24 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: "Success", url: blob.url });
   } catch (error: any) {
     console.error("Upload error details:", error);
-    return NextResponse.json({ 
-      error: `Upload failed: ${error.message || "Unknown error"}`,
-      details: error.toString()
-    }, { status: 500 });
+
+    // Provide more specific error messages
+    let errorMessage = "Upload gagal.";
+    if (error.message?.includes("token")) {
+      errorMessage =
+        "BLOB_READ_WRITE_TOKEN tidak valid atau expired. Periksa environment variable di Vercel.";
+    } else if (error.message?.includes("network") || error.message?.includes("fetch")) {
+      errorMessage = "Gagal terhubung ke Vercel Blob storage. Periksa koneksi internet.";
+    } else if (error.message) {
+      errorMessage = error.message;
+    }
+
+    return NextResponse.json(
+      {
+        error: `Upload failed: ${errorMessage}`,
+        details: error.toString(),
+      },
+      { status: 500 }
+    );
   }
 }
-

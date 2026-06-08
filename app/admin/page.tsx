@@ -50,13 +50,21 @@ export default function AdminPage() {
         body: JSON.stringify(data)
       })
       if (res.ok) {
-        alert("Data saved successfully!")
+        alert("✅ Data berhasil disimpan!")
+      } else if (res.status === 401) {
+        alert("❌ Sesi login telah berakhir. Silakan login ulang.")
+        router.push('/login')
+        return
       } else {
-        const result = await res.json()
-        alert("Failed to save data: " + (result.error || "Unknown error"))
+        let errorMsg = "Unknown error"
+        try {
+          const result = await res.json()
+          errorMsg = result.error || errorMsg
+        } catch {}
+        alert("❌ Gagal menyimpan data: " + errorMsg)
       }
     } catch (err) {
-      alert("An error occurred while saving: " + String(err))
+      alert("❌ Gagal terhubung ke server. Periksa koneksi internet Anda.\n\nDetail: " + String(err))
     }
     setSaving(false)
   }
@@ -99,11 +107,22 @@ export default function AdminPage() {
     formData.append("file", file)
     try {
       const res = await fetch('/api/upload', { method: 'POST', body: formData })
+      if (res.status === 401) {
+        alert("❌ Sesi login telah berakhir. Silakan login ulang.")
+        router.push('/login')
+        return
+      }
       const result = await res.json()
-      if (res.ok) callback(result.url)
+      if (res.ok) {
+        callback(result.url)
+      } else {
+        alert("❌ Upload gagal: " + (result.error || "Unknown error"))
+      }
     } catch (err) {
-      alert("An error occurred during upload.")
+      alert("❌ Upload gagal. Periksa koneksi internet Anda.\n\nDetail: " + String(err))
     }
+    // Reset input value so the same file can be re-selected
+    e.target.value = ''
   }
 
   const handleFileSelectForCrop = (e: React.ChangeEvent<HTMLInputElement>, field: string, aspectRatio: number, extra?: any) => {
@@ -122,6 +141,12 @@ export default function AdminPage() {
     formData.append("file", croppedFile)
     try {
       const res = await fetch('/api/upload', { method: 'POST', body: formData })
+      if (res.status === 401) {
+        alert("❌ Sesi login telah berakhir. Silakan login ulang.")
+        router.push('/login')
+        setCropConfig(null)
+        return
+      }
       const result = await res.json()
       if (res.ok) {
         if (cropConfig.field === "portfolio") {
@@ -132,10 +157,10 @@ export default function AdminPage() {
           updateProfile(cropConfig.field, result.url)
         }
       } else {
-        alert("Upload failed: " + result.error)
+        alert("❌ Upload gagal: " + (result.error || "Unknown error"))
       }
     } catch (e) {
-      alert("An error occurred during crop upload.")
+      alert("❌ Upload gagal. Periksa koneksi internet Anda.\n\nDetail: " + String(e))
     }
     setCropConfig(null)
   }
