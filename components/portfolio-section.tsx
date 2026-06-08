@@ -49,7 +49,7 @@ function CategoryBlock({ category, isInView, catIndex }: { category: any, isInVi
       </motion.div>
 
       {/* Grid - 2 cols on mobile for gallery-like grid, scales up on larger screens */}
-      <motion.div layout className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-0 w-full max-w-7xl mx-auto bg-white dark:bg-[#111]">
+      <motion.div layout className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 sm:gap-0 w-full max-w-7xl mx-auto bg-white dark:bg-[#111] rounded-lg sm:rounded-none overflow-hidden">
         <AnimatePresence mode="popLayout">
           {itemsToShow.map((item: any, index: number) => (
             <motion.div
@@ -128,7 +128,7 @@ export function PortfolioSection() {
 
   return (
     <section id="portfolio" ref={ref} className="py-24 text-center bg-[#F3F5F8] dark:bg-[#1a1a1a]">
-      <div className="container mx-auto px-0 md:px-6">
+      <div className="container mx-auto px-4 md:px-6">
         {/* Headline */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
