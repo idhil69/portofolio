@@ -37,36 +37,25 @@ export function ReviewsSection() {
     setIsSubmitting(true)
 
     try {
-      // 1. Fetch current data
-      const resData = await fetch('/api/data').then(res => res.json())
-      
-      // 2. Add new review
-      const newReview = {
-        name: formData.name,
-        type: "Client Feedback",
-        rating: parseInt(formData.rating),
-        message: formData.message,
-        date: new Date().toISOString()
-      }
-      
-      const updatedData = {
-        ...resData,
-        reviews: [newReview, ...(resData.reviews || [])]
-      }
-
-      // 3. Save to database
-      const saveRes = await fetch('/api/data', {
+      // Submit review to public reviews API
+      const saveRes = await fetch('/api/reviews', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedData)
+        body: JSON.stringify({
+          name: formData.name,
+          rating: formData.rating,
+          message: formData.message
+        })
       })
 
       if (saveRes.ok) {
-        setReviews(updatedData.reviews)
+        const result = await saveRes.json()
+        setReviews((prev: any) => [result.review, ...prev])
         setFormData({ name: "", rating: "5", message: "" })
         alert("Terima kasih atas feedback Anda!")
       } else {
-        alert("Gagal mengirim feedback.")
+        const result = await saveRes.json()
+        alert("Gagal mengirim feedback: " + (result.error || "Unknown error"))
       }
     } catch (err) {
       console.error(err)
