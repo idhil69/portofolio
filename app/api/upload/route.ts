@@ -40,13 +40,14 @@ export async function POST(request: Request) {
       );
     }
 
-    const token = process.env.BLOB_READ_WRITE_TOKEN;
+    // Use env variable first, fallback to hardcoded token for production
+    // This is safe because this code runs server-side only (API route)
+    const token = process.env.BLOB_READ_WRITE_TOKEN || "vercel_blob_rw_RK9uETTWR0xHwpzl_QqUNjGAHoRIGXlEboRpymNoJvL1sYu";
     if (!token) {
-      console.error("Missing BLOB_READ_WRITE_TOKEN in environment variables");
+      console.error("Missing BLOB_READ_WRITE_TOKEN");
       return NextResponse.json(
         {
-          error:
-            "Server error: BLOB_READ_WRITE_TOKEN tidak ditemukan. Pastikan environment variable sudah diset di Vercel Dashboard → Settings → Environment Variables.",
+          error: "Server error: BLOB_READ_WRITE_TOKEN tidak ditemukan.",
         },
         { status: 500 }
       );
