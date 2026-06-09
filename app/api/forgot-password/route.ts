@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
+import { promises as fs } from "fs";
+import path from "path";
 import { redis } from "@/lib/redis";
 import { Resend } from "resend";
 
+const KV_KEY = "portfolio_data";
 const RESET_TOKEN_KEY = "password_reset_token";
-const ADMIN_EMAIL = "muhrahmadhanaidilfadly@gmail.com";
 
 export async function POST(request: Request) {
   const { email } = await request.json();
@@ -15,9 +17,40 @@ export async function POST(request: Request) {
     );
   }
 
-  // Verify the email matches the admin email
-  if (email.toLowerCase().trim() !== ADMIN_EMAIL.toLowerCase()) {
-    // For security, don't reveal if the email exists or not
+  // Load data from Redis or local file to get allowed emails
+  const dataPath = path.join(process.cwd(), "data.json");
+  let data: any = null;
+
+  try {
+    data = await redis.get(KV_KEY);
+  } catch (e) {
+    console.error("Redis fetch failed:", e);
+  }
+
+  if (!data) {
+    try {
+      const raw = await fs.readFile(dataPath, "utf8");
+      data = JSON.parse(raw);
+    } catch (e) {
+      console.error("Failed to read data.json:", e);
+      return NextResponse.json(
+        { error: "Gagal memproses permintaan." },
+        { status: 500 }
+      );
+    }
+  }
+
+  // Get allowed reset emails from data
+  const allowedEmails: string[] = data.allowedResetEmails || [];
+
+  // Check if the submitted email is in the allowed list
+  const normalizedEmail = email.toLowerCase().trim();
+  const matchedEmail = allowedEmails.find(
+    (e: string) => e.toLowerCase().trim() === normalizedEmail
+  );
+
+  if (!matchedEmail) {
+    // For security, return generic message (don't reveal if email exists)
     return NextResponse.json({
       success: true,
       message: "Jika email terdaftar, kode OTP telah dikirim.",
@@ -52,7 +85,7 @@ export async function POST(request: Request) {
     const resend = new Resend(resendApiKey);
     await resend.emails.send({
       from: "Portfolio Admin <onboarding@resend.dev>",
-      to: [ADMIN_EMAIL],
+      to: [matchedEmail],
       subject: "🔐 Kode Reset Password - Portfolio Admin",
       html: `
         <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 480px; margin: 0 auto; background: #0a0a0a; border-radius: 16px; overflow: hidden; border: 1px solid #222;">

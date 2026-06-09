@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
-import { Trash2, Plus, Save, LogOut, KeyRound, Eye, EyeOff, CheckCircle2, Star } from "lucide-react"
+import { Trash2, Plus, Save, LogOut, KeyRound, Eye, EyeOff, CheckCircle2, Star, Mail } from "lucide-react"
 import { CropModal } from "@/components/crop-modal"
 import { useRouter } from "next/navigation"
 
@@ -696,6 +696,60 @@ export default function AdminPage() {
                   {changingPassword ? "Menyimpan..." : "Simpan Password Baru"}
                 </Button>
               </form>
+            </CardContent>
+          </Card>
+
+          <Card className="mt-6">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Mail className="w-5 h-5 text-primary" />
+                Email Reset Password
+              </CardTitle>
+              <CardDescription>Kelola daftar email yang diizinkan untuk menerima kode OTP reset password. Hanya email di bawah ini yang bisa mereset password.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {(data.allowedResetEmails || []).map((email: string, index: number) => (
+                <div key={index} className="flex gap-3 items-center">
+                  <div className="flex items-center gap-2 flex-1">
+                    <Mail className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+                    <Input
+                      type="email"
+                      value={email}
+                      onChange={(e) => {
+                        const newEmails = [...(data.allowedResetEmails || [])]
+                        newEmails[index] = e.target.value
+                        setData({ ...data, allowedResetEmails: newEmails })
+                      }}
+                      placeholder="email@example.com"
+                    />
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => {
+                      const newEmails = (data.allowedResetEmails || []).filter((_: any, i: number) => i !== index)
+                      setData({ ...data, allowedResetEmails: newEmails })
+                    }}
+                    className="text-red-500 hover:text-red-600 hover:bg-red-50"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                </div>
+              ))}
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  setData({ ...data, allowedResetEmails: [...(data.allowedResetEmails || []), ""] })
+                }}
+                className="gap-2"
+              >
+                <Plus className="w-4 h-4" />
+                Tambah Email
+              </Button>
+              <p className="text-[11px] text-muted-foreground">
+                ⚠️ Pastikan email yang ditambahkan benar. Hanya email dalam daftar ini yang dapat menerima kode OTP untuk reset password melalui halaman Lupa Password.
+              </p>
             </CardContent>
           </Card>
         </TabsContent>

@@ -244,5 +244,8 @@
   "credentials": {
     "username": "admin",
     "password": "admin123"
-  }
+  },
+  "allowedResetEmails": [
+    "muhrahmadhanaidilfadly@gmail.com"
+  ]
 }
