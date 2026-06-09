@@ -153,6 +153,16 @@ export default function LoginPage() {
               </div>
             </div>
 
+            {/* Forgot Password Link */}
+            <div className="flex justify-end">
+              <a
+                href="/forgot-password"
+                className="text-xs text-muted-foreground hover:text-primary transition-colors"
+              >
+                Lupa Password?
+              </a>
+            </div>
+
             {/* Error Message */}
             {error && (
               <motion.div

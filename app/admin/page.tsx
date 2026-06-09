@@ -485,7 +485,7 @@ export default function AdminPage() {
                     {url && <img src={url} alt={`Doc ${index}`} className="w-full h-full object-cover" />}
                   </div>
                   <div className="flex-1 space-y-1">
-                    <Input type="file" accept="image/*" onChange={(e) => handleUpload(e, (newUrl) => updateDocImage(index, newUrl))} />
+                    <Input type="file" accept="image/*" onChange={(e) => handleFileSelectForCrop(e, "documentation", 1, { index })} />
                   </div>
                   <Button variant="ghost" size="icon" onClick={() => removeDocImage(index)}>
                     <Trash2 className="w-5 h-5 text-red-500" />
