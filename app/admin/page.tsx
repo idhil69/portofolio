@@ -460,7 +460,7 @@ export default function AdminPage() {
                         <Label>Thumbnail Image (Optional)</Label>
                         <div className="flex gap-2">
                           <Input value={item.image || ""} onChange={(e) => updatePortfolioItem(catIndex, itemIndex, "image", e.target.value)} placeholder="Auto from YouTube if empty" />
-                          <Input type="file" accept="image/*" className="hidden" id={`port-img-${catIndex}-${itemIndex}`} onChange={(e) => handleFileSelectForCrop(e, "portfolio", category.isVertical ? 0.75 : 1.77, { catIndex, itemIndex })} />
+                          <Input type="file" accept="image/*" className="hidden" id={`port-img-${catIndex}-${itemIndex}`} onChange={(e) => handleFileSelectForCrop(e, "portfolio", 1, { catIndex, itemIndex })} />
                           <Button variant="outline" size="sm" onClick={() => document.getElementById(`port-img-${catIndex}-${itemIndex}`)?.click()}>Upload</Button>
                         </div>
                       </div>
