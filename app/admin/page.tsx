@@ -230,10 +230,32 @@ export default function AdminPage() {
     newPortfolio[categoryIndex].items.unshift({ name: "New Project", link: "", description: "Description" })
     setData({ ...data, portfolio: newPortfolio })
   }
-  const updatePortfolioItem = (categoryIndex: number, itemIndex: number, field: string, value: string) => {
+  const updatePortfolioItem = async (categoryIndex: number, itemIndex: number, field: string, value: string) => {
     const newPortfolio = [...data.portfolio]
     newPortfolio[categoryIndex].items[itemIndex][field] = value
     setData({ ...data, portfolio: newPortfolio })
+
+    // Auto-fetch TikTok thumbnail when a link is pasted
+    if (field === "link" && (value.includes("tiktok.com") || value.includes("vt.tiktok.com")) && value.length > 15) {
+      try {
+        const res = await fetch(`/api/oembed?url=${encodeURIComponent(value)}`)
+        if (res.ok) {
+          const oembedData = await res.json()
+          if (oembedData.thumbnail_url) {
+            setData((prevData: any) => {
+              const updatedPortfolio = [...prevData.portfolio]
+              // Only update if the user hasn't changed the image manually
+              if (!updatedPortfolio[categoryIndex].items[itemIndex].image) {
+                updatedPortfolio[categoryIndex].items[itemIndex].image = oembedData.thumbnail_url
+              }
+              return { ...prevData, portfolio: updatedPortfolio }
+            })
+          }
+        }
+      } catch (e) {
+        console.error("Failed to fetch TikTok thumbnail", e)
+      }
+    }
   }
   const removePortfolioItem = (categoryIndex: number, itemIndex: number) => {
     const newPortfolio = [...data.portfolio]
