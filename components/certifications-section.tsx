@@ -20,8 +20,6 @@ export function CertificationsSection() {
       .catch(err => console.error("Failed to load certifications", err))
   }, [])
 
-  if (data.length === 0) return null;
-
   return (
     <section id="certifications" ref={ref} className="py-24 text-center bg-white dark:bg-[#111]">
       <div className="container mx-auto px-6">
