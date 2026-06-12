@@ -356,6 +356,19 @@ export default function AdminPage() {
                   </div>
                 </div>
                 <div className="space-y-2">
+                  <Label>Hero Image (Transparent PNG for Dashboard Right Side)</Label>
+                  <div className="flex items-center gap-4">
+                    {data.profile.heroImageUrl && <img src={data.profile.heroImageUrl} alt="Hero" className="h-16 w-auto object-contain border bg-muted" />}
+                    <div className="flex-1">
+                      <Input type="file" accept="image/png" onChange={(e) => handleUpload(e, (url) => updateProfile("heroImageUrl", url))} />
+                      <p className="text-[10px] text-muted-foreground mt-1">Upload foto tanpa background (PNG). Tampil di sebelah kanan halaman utama.</p>
+                    </div>
+                    {data.profile.heroImageUrl && (
+                      <Button variant="ghost" size="sm" onClick={() => updateProfile("heroImageUrl", "")} className="text-red-500 hover:text-red-600 hover:bg-red-50">Hapus</Button>
+                    )}
+                  </div>
+                </div>
+                <div className="space-y-2">
                   <Label>Bio (Before Skills)</Label>
                   <Textarea value={data.profile.bioPrefix} onChange={(e) => updateProfile("bioPrefix", e.target.value)} />
                 </div>

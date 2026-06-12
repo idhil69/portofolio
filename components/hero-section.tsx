@@ -87,7 +87,7 @@ export function HeroSection() {
         />
       )}
 
-      <div className="container mx-auto px-6 lg:px-12 relative z-10">
+      <div className="container mx-auto px-6 lg:px-12 relative z-20">
         <div className="max-w-5xl pt-24 md:pt-20">
           <motion.div
             initial={{ opacity: 0, y: -30 }}
@@ -112,7 +112,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="mt-8 md:mt-10 h-16"
+            className="mt-8 md:mt-10 h-16 relative z-30"
           >
             <h3 className="text-xl md:text-2xl font-bold tracking-[8px] md:tracking-[18px] uppercase text-[#bf4b4b] opacity-70">
               <AnimatePresence mode="wait">
@@ -131,6 +131,22 @@ export function HeroSection() {
           </motion.div>
         </div>
       </div>
+
+      {/* Hero Image Overlay (Right Side) */}
+      {profile?.heroImageUrl && (
+        <motion.div
+          initial={{ opacity: 0, x: 100 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1.2, delay: 0.3, ease: "easeOut" }}
+          className="absolute bottom-0 right-0 z-10 pointer-events-none w-full md:w-[60%] lg:w-[50%] h-[60%] md:h-[80%] lg:h-[90%] flex justify-end items-end"
+        >
+          <img 
+            src={profile.heroImageUrl} 
+            alt="Hero" 
+            className="object-contain object-bottom w-full h-full drop-shadow-[0_20px_50px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_20px_50px_rgba(255,255,255,0.1)]"
+          />
+        </motion.div>
+      )}
 
       <div className="absolute bottom-10 left-0 right-0 flex justify-center z-10">
         <a
