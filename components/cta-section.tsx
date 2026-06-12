@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useRef, useState, useEffect } from "react"
 import { motion, useInView } from "framer-motion"
@@ -44,7 +44,7 @@ export function CTASection() {
               <MapPin className="w-8 h-8 mb-2" />
               <span>Address</span>
             </h2>
-            <p className="mt-6 text-[#8c9398] text-[14px]">Morowali, Sulawesi Tengah<br/>Indonesia</p>
+            <p className="mt-6 text-[#8c9398] text-[14px]">Kendari, Sulawesi Tenggara<br/>Indonesia</p>
           </motion.div>
 
           {/* Phone Box */}
@@ -86,7 +86,7 @@ export function CTASection() {
           >
             {/* Simple Map Placeholder */}
             <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d255160.77180415302!2d121.72483861298418!3d-2.58414436577881!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2d8fe1b14da2c6d7%3A0x3030bfbcaf77170!2sKabupaten%20Morowali%2C%20Sulawesi%20Tengah!5e0!3m2!1sid!2sid!4v1709696404975!5m2!1sid!2sid" 
+              src="https://www.google.com/maps?q=Kendari,+Sulawesi+Tenggara&output=embed" 
               className="w-full h-full border-0 grayscale hover:grayscale-0 transition-all duration-500" 
               allowFullScreen 
               loading="lazy" 
