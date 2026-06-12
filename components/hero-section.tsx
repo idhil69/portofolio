@@ -138,7 +138,7 @@ export function HeroSection() {
           initial={{ opacity: 0, x: 100 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1.2, delay: 0.3, ease: "easeOut" }}
-          className="absolute bottom-0 right-0 z-10 pointer-events-none w-full md:w-[60%] lg:w-[50%] h-[60%] md:h-[80%] lg:h-[90%] flex justify-end items-end"
+          className="absolute bottom-0 right-0 z-10 pointer-events-none w-full md:w-[70%] lg:w-[60%] h-[70%] md:h-[90%] lg:h-[100%] flex justify-end items-end"
         >
           <img 
             src={profile.heroImageUrl} 
