@@ -235,25 +235,30 @@ export default function AdminPage() {
     newPortfolio[categoryIndex].items[itemIndex][field] = value
     setData({ ...data, portfolio: newPortfolio })
 
-    // Auto-fetch TikTok thumbnail when a link is pasted
-    if (field === "link" && (value.includes("tiktok.com") || value.includes("vt.tiktok.com")) && value.length > 15) {
-      try {
-        const res = await fetch(`/api/oembed?url=${encodeURIComponent(value)}`)
-        if (res.ok) {
-          const oembedData = await res.json()
-          if (oembedData.thumbnail_url) {
-            setData((prevData: any) => {
-              const updatedPortfolio = [...prevData.portfolio]
-              // Only update if the user hasn't changed the image manually
-              if (!updatedPortfolio[categoryIndex].items[itemIndex].image) {
-                updatedPortfolio[categoryIndex].items[itemIndex].image = oembedData.thumbnail_url
-              }
-              return { ...prevData, portfolio: updatedPortfolio }
-            })
+    // Auto-fetch thumbnail when a supported link is pasted
+    if (field === "link" && value.length > 15) {
+      const isTikTok = value.includes("tiktok.com") || value.includes("vt.tiktok.com");
+      const isInstagram = value.includes("instagram.com/p/") || value.includes("instagram.com/reel/");
+      
+      if (isTikTok || isInstagram) {
+        try {
+          const res = await fetch(`/api/oembed?url=${encodeURIComponent(value)}`)
+          if (res.ok) {
+            const oembedData = await res.json()
+            if (oembedData.thumbnail_url) {
+              setData((prevData: any) => {
+                const updatedPortfolio = [...prevData.portfolio]
+                // Only update if the user hasn't changed the image manually
+                if (!updatedPortfolio[categoryIndex].items[itemIndex].image) {
+                  updatedPortfolio[categoryIndex].items[itemIndex].image = oembedData.thumbnail_url
+                }
+                return { ...prevData, portfolio: updatedPortfolio }
+              })
+            }
           }
+        } catch (e) {
+          console.error("Failed to fetch thumbnail", e)
         }
-      } catch (e) {
-        console.error("Failed to fetch TikTok thumbnail", e)
       }
     }
   }
