@@ -458,10 +458,30 @@ export default function AdminPage() {
                       </div>
                       <div className="space-y-2">
                         <Label>Thumbnail Image (Optional)</Label>
-                        <div className="flex gap-2">
-                          <Input value={item.image || ""} onChange={(e) => updatePortfolioItem(catIndex, itemIndex, "image", e.target.value)} placeholder="Auto from YouTube if empty" />
-                          <Input type="file" accept="image/*" className="hidden" id={`port-img-${catIndex}-${itemIndex}`} onChange={(e) => handleFileSelectForCrop(e, "portfolio", 1, { catIndex, itemIndex })} />
-                          <Button variant="outline" size="sm" onClick={() => document.getElementById(`port-img-${catIndex}-${itemIndex}`)?.click()}>Upload</Button>
+                        <div className="flex items-center gap-4">
+                          {(() => {
+                            let previewUrl = item.image;
+                            if (!previewUrl && item.link) {
+                              const ytMatch = item.link.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
+                              if (ytMatch && ytMatch[1]) {
+                                previewUrl = `https://img.youtube.com/vi/${ytMatch[1]}/hqdefault.jpg`;
+                              }
+                            }
+                            return (
+                              <div className="w-32 aspect-video rounded-md border flex-shrink-0 bg-muted flex flex-col items-center justify-center overflow-hidden relative">
+                                {previewUrl ? (
+                                  <img src={previewUrl} alt="Thumbnail" className="w-full h-full object-cover" />
+                                ) : (
+                                  <span className="text-xs text-muted-foreground font-medium">No Image</span>
+                                )}
+                              </div>
+                            );
+                          })()}
+                          <div className="flex flex-1 gap-2">
+                            <Input value={item.image || ""} onChange={(e) => updatePortfolioItem(catIndex, itemIndex, "image", e.target.value)} placeholder="Auto from YouTube if empty" />
+                            <Input type="file" accept="image/*" className="hidden" id={`port-img-${catIndex}-${itemIndex}`} onChange={(e) => handleFileSelectForCrop(e, "portfolio", 1, { catIndex, itemIndex })} />
+                            <Button variant="outline" size="sm" onClick={() => document.getElementById(`port-img-${catIndex}-${itemIndex}`)?.click()}>Upload</Button>
+                          </div>
                         </div>
                       </div>
                     </div>
