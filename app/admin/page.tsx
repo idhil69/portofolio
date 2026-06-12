@@ -299,6 +299,20 @@ export default function AdminPage() {
     setData({ ...data, certifications: newCerts })
   }
 
+  // Experience Updates
+  const addExperience = () => {
+    setData({ ...data, experiences: [...(data.experiences || []), { period: "2024", title: "New Role", company: "Company", description: "Description" }] })
+  }
+  const updateExperience = (index: number, field: string, value: string) => {
+    const newExps = [...(data.experiences || [])]
+    newExps[index][field] = value
+    setData({ ...data, experiences: newExps })
+  }
+  const removeExperience = (index: number) => {
+    const newExps = (data.experiences || []).filter((_: any, i: number) => i !== index)
+    setData({ ...data, experiences: newExps })
+  }
+
   // Review Updates
   const removeReview = (index: number) => {
     const newReviews = data.reviews.filter((_: any, i: number) => i !== index)
@@ -339,7 +353,7 @@ export default function AdminPage() {
           <TabsTrigger value="portfolio">Portfolio</TabsTrigger>
           <TabsTrigger value="documentation">Gallery</TabsTrigger>
           <TabsTrigger value="skills">Skills</TabsTrigger>
-          <TabsTrigger value="certifications">Certifications</TabsTrigger>
+          <TabsTrigger value="certifications">Career & Certs</TabsTrigger>
           <TabsTrigger value="reviews">Reviews</TabsTrigger>
           <TabsTrigger value="security">Security</TabsTrigger>
         </TabsList>
@@ -609,33 +623,67 @@ export default function AdminPage() {
         </TabsContent>
 
         <TabsContent value="certifications">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle>Certifications</CardTitle>
-              <Button variant="outline" size="sm" onClick={addCert}><Plus className="w-4 h-4 mr-2" />Add Cert</Button>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {data.certifications.map((cert: any, index: number) => (
-                <div key={index} className="grid grid-cols-1 md:grid-cols-4 gap-4 p-4 border rounded-xl relative group">
-                  <Button variant="destructive" size="icon" className="absolute -top-3 -right-3 w-8 h-8 opacity-0 group-hover:opacity-100 transition-opacity" onClick={() => removeCert(index)}>
-                    <Trash2 className="w-4 h-4" />
-                  </Button>
-                  <div className="space-y-2">
-                    <Label>Year</Label>
-                    <Input value={cert.year} onChange={(e) => updateCert(index, "year", e.target.value)} />
+          <div className="space-y-6">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <CardTitle>Career & Education</CardTitle>
+                <Button variant="outline" size="sm" onClick={addExperience}><Plus className="w-4 h-4 mr-2" />Add Item</Button>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {(data.experiences || []).map((exp: any, index: number) => (
+                  <div key={index} className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 border rounded-xl relative group">
+                    <Button variant="destructive" size="icon" className="absolute -top-3 -right-3 w-8 h-8 opacity-0 group-hover:opacity-100 transition-opacity z-10" onClick={() => removeExperience(index)}>
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                    <div className="space-y-2">
+                      <Label>Period (e.g. 2022 - 2025)</Label>
+                      <Input value={exp.period} onChange={(e) => updateExperience(index, "period", e.target.value)} />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Title / Degree</Label>
+                      <Input value={exp.title} onChange={(e) => updateExperience(index, "title", e.target.value)} />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Company / Institution</Label>
+                      <Input value={exp.company} onChange={(e) => updateExperience(index, "company", e.target.value)} />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Description</Label>
+                      <Input value={exp.description} onChange={(e) => updateExperience(index, "description", e.target.value)} />
+                    </div>
                   </div>
-                  <div className="space-y-2 md:col-span-2">
-                    <Label>Title</Label>
-                    <Input value={cert.title} onChange={(e) => updateCert(index, "title", e.target.value)} />
+                ))}
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <CardTitle>Certifications</CardTitle>
+                <Button variant="outline" size="sm" onClick={addCert}><Plus className="w-4 h-4 mr-2" />Add Cert</Button>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {data.certifications.map((cert: any, index: number) => (
+                  <div key={index} className="grid grid-cols-1 md:grid-cols-4 gap-4 p-4 border rounded-xl relative group">
+                    <Button variant="destructive" size="icon" className="absolute -top-3 -right-3 w-8 h-8 opacity-0 group-hover:opacity-100 transition-opacity z-10" onClick={() => removeCert(index)}>
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                    <div className="space-y-2">
+                      <Label>Year</Label>
+                      <Input value={cert.year} onChange={(e) => updateCert(index, "year", e.target.value)} />
+                    </div>
+                    <div className="space-y-2 md:col-span-2">
+                      <Label>Title</Label>
+                      <Input value={cert.title} onChange={(e) => updateCert(index, "title", e.target.value)} />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Issuer</Label>
+                      <Input value={cert.issuer} onChange={(e) => updateCert(index, "issuer", e.target.value)} />
+                    </div>
                   </div>
-                  <div className="space-y-2">
-                    <Label>Issuer</Label>
-                    <Input value={cert.issuer} onChange={(e) => updateCert(index, "issuer", e.target.value)} />
-                  </div>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
+                ))}
+              </CardContent>
+            </Card>
+          </div>
         </TabsContent>
 
         <TabsContent value="reviews">

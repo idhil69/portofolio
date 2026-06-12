@@ -247,5 +247,25 @@
   },
   "allowedResetEmails": [
     "haffleyidhil@gmail.com"
+  ],
+  "experiences": [
+    {
+      "period": "2022 - 2025",
+      "title": "Video Editor & Graphic Designer",
+      "company": "Dinas Kominfo SP Kab. Morowali",
+      "description": "Mengelola konten publik & social media branding instansi pemerintahan."
+    },
+    {
+      "period": "Jul - Des 2020",
+      "title": "Junior Graphic Designer",
+      "company": "CV. Multi Advertising",
+      "description": "Membuat desain visual untuk berbagai keperluan advertising."
+    },
+    {
+      "period": "2016 - 2021",
+      "title": "D3 Arsitektur",
+      "company": "Universitas Halu Oleo, Kendari",
+      "description": "Pendidikan formal di bidang arsitektur dan desain."
+    }
   ]
 }

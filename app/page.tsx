@@ -6,6 +6,7 @@ import { ExperienceSection } from "@/components/experience-section"
 import { SkillsSection } from "@/components/skills-section"
 import { PortfolioSection } from "@/components/portfolio-section"
 import { DocumentationSection } from "@/components/documentation-section"
+import { CertificationsSection } from "@/components/certifications-section"
 import { CTASection } from "@/components/cta-section"
 import { Footer } from "@/components/footer"
 
@@ -26,6 +27,9 @@ export default function PortfolioPage() {
 
       {/* Portfolio */}
       <PortfolioSection />
+
+      {/* Certifications Section */}
+      <CertificationsSection />
 
       {/* Gallery Section */}
       <DocumentationSection />

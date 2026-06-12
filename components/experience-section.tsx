@@ -1,7 +1,7 @@
-﻿"use client"
+"use client"
 
 import { motion, useInView } from "framer-motion"
-import { useRef } from "react"
+import { useRef, useState, useEffect } from "react"
 import { Briefcase, Building, GraduationCap, Video, Paintbrush } from "lucide-react"
 
 const experiences = [
@@ -31,6 +31,18 @@ const experiences = [
 export function ExperienceSection() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const [data, setData] = useState<any>({ experiences })
+
+  useEffect(() => {
+    fetch('/api/data')
+      .then(res => res.json())
+      .then(resData => {
+        if (resData.experiences) {
+          setData(resData)
+        }
+      })
+      .catch(err => console.error("Failed to load experience data", err))
+  }, [])
 
   return (
     <section id="experience" ref={ref} className="bg-[#bf4b4b] text-white py-24 text-center">
@@ -53,9 +65,9 @@ export function ExperienceSection() {
         <div className="max-w-4xl mx-auto text-left">
           <h2 className="text-xl font-bold uppercase tracking-widest text-[#FFE800] mb-8 text-center">Career & Education</h2>
           <div className="space-y-8">
-            {experiences.map((exp, index) => (
+            {(data.experiences || experiences).map((exp: any, index: number) => (
               <motion.div
-                key={exp.title}
+                key={index}
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay: 0.2 + index * 0.2, duration: 0.5 }}
