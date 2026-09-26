@@ -14,17 +14,17 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { currentPassword, newPassword, confirmPassword } = await request.json();
+  const { currentPassword, newUsername, newPassword, confirmPassword } = await request.json();
 
-  if (!currentPassword || !newPassword || !confirmPassword) {
-    return NextResponse.json({ error: "Semua field wajib diisi." }, { status: 400 });
+  if (!currentPassword) {
+    return NextResponse.json({ error: "Password saat ini wajib diisi untuk keamanan." }, { status: 400 });
   }
 
-  if (newPassword !== confirmPassword) {
+  if (newPassword && newPassword !== confirmPassword) {
     return NextResponse.json({ error: "Password baru tidak cocok." }, { status: 400 });
   }
 
-  if (newPassword.length < 6) {
+  if (newPassword && newPassword.length < 6) {
     return NextResponse.json({ error: "Password baru minimal 6 karakter." }, { status: 400 });
   }
 
@@ -55,8 +55,8 @@ export async function POST(request: Request) {
 
   // Update password in data
   data.credentials = {
-    username: currentUsername,
-    password: newPassword,
+    username: newUsername && newUsername.trim() !== "" ? newUsername.trim() : currentUsername,
+    password: newPassword ? newPassword : currentStoredPassword,
   };
 
   // Save to Redis

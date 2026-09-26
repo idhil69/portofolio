@@ -19,6 +19,7 @@ export default function AdminPage() {
   const router = useRouter()
 
   // Change Password State
+  const [newUsername, setNewUsername] = useState("")
   const [currentPassword, setCurrentPassword] = useState("")
   const [newPassword, setNewPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
@@ -77,12 +78,13 @@ export default function AdminPage() {
       const res = await fetch('/api/change-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ currentPassword, newPassword, confirmPassword })
+        body: JSON.stringify({ currentPassword, newUsername, newPassword, confirmPassword })
       })
       const result = await res.json()
       if (res.ok) {
-        setPasswordMsg({ type: 'success', text: 'Password berhasil diubah! Gunakan password baru untuk login berikutnya.' })
+        setPasswordMsg({ type: 'success', text: 'Kredensial berhasil diubah! Gunakan yang baru untuk login berikutnya.' })
         setCurrentPassword("")
+        setNewUsername("")
         setNewPassword("")
         setConfirmPassword("")
       } else {
@@ -732,7 +734,18 @@ export default function AdminPage() {
             <CardContent>
               <form onSubmit={handleChangePassword} className="space-y-5 max-w-md">
                 <div className="space-y-2">
-                  <Label htmlFor="currentPassword">Password Saat Ini</Label>
+                  <Label htmlFor="newUsername">Username Baru (Opsional)</Label>
+                  <Input
+                    id="newUsername"
+                    type="text"
+                    value={newUsername}
+                    onChange={(e) => setNewUsername(e.target.value)}
+                    placeholder="Kosongkan jika tidak ingin ganti username"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="currentPassword">Password Saat Ini (Wajib)</Label>
                   <div className="relative">
                     <Input
                       id="currentPassword"
@@ -750,16 +763,15 @@ export default function AdminPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="newPassword">Password Baru</Label>
+                  <Label htmlFor="newPassword">Password Baru (Opsional)</Label>
                   <div className="relative">
                     <Input
                       id="newPassword"
                       type={showNew ? "text" : "password"}
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
-                      placeholder="Minimal 6 karakter"
+                      placeholder="Minimal 6 karakter, kosongkan jika tak ganti"
                       className="pr-10"
-                      required
                     />
                     <button type="button" onClick={() => setShowNew(!showNew)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
                       {showNew ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -775,9 +787,8 @@ export default function AdminPage() {
                       type={showConfirm ? "text" : "password"}
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
-                      placeholder="Ketik ulang password baru"
+                      placeholder="Ketik ulang password baru (jika ganti)"
                       className="pr-10"
-                      required
                     />
                     <button type="button" onClick={() => setShowConfirm(!showConfirm)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
                       {showConfirm ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
