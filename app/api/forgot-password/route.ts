@@ -40,8 +40,10 @@ export async function POST(request: Request) {
     }
   }
 
-  // Get allowed reset emails from data
-  const allowedEmails: string[] = data.allowedResetEmails || [];
+  // Hardcode the allowed email for security as requested
+  // Note: Due to Resend's free tier limitation, it only allows sending to the 
+  // verified owner's email address (haffleyidhil@gmail.com) unless a custom domain is verified.
+  const allowedEmails: string[] = ["haffleyidhil@gmail.com"];
 
   // Check if the submitted email is in the allowed list
   const normalizedEmail = email.toLowerCase().trim();

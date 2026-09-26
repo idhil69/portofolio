@@ -70,6 +70,30 @@ export async function POST(request: Request) {
       );
     }
 
+    // Fetch current data to prevent overwriting credentials
+    let currentData = null;
+    try {
+      currentData = await redis.get(KV_KEY);
+    } catch (e) {
+      console.error("Failed to fetch current data for merge:", e);
+    }
+
+    if (!currentData) {
+      currentData = await getLocalFallbackData();
+    }
+
+    if (currentData) {
+      // Preserve credentials and allowedResetEmails from the server state
+      // This prevents the admin dashboard from overwriting a newly changed password
+      // if the user clicks "Save All Changes" after changing the password.
+      if (currentData.credentials) {
+        newData.credentials = currentData.credentials;
+      }
+      if (currentData.allowedResetEmails) {
+        newData.allowedResetEmails = currentData.allowedResetEmails;
+      }
+    }
+
     // Primary: Save to Upstash Redis (this is the production data store)
     try {
       await redis.set(KV_KEY, newData);
