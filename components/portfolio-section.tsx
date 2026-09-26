@@ -5,16 +5,53 @@ import { motion, useInView, AnimatePresence } from "framer-motion"
 import { ChevronDown, ChevronUp } from "lucide-react"
 import Image from "next/image"
 
-function getAutoThumb(item: any): string {
-  if (item.image) return item.image
-  const url = item.link || ""
-  if (url.includes("youtube.com") || url.includes("youtu.be")) {
-    const videoId = url.includes("v=")
-      ? url.split("v=")[1]?.split("&")[0]
-      : url.split("/").pop()
-    return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
-  }
-  return "https://images.unsplash.com/photo-1626544827763-d516dce335e2?q=80&w=600&auto=format&fit=crop"
+function AutoImage({ item }: { item: any }) {
+  const [src, setSrc] = useState<string>("")
+
+  useEffect(() => {
+    // 1. If image is manually set, use it
+    if (item.image) {
+      setSrc(item.image)
+      return
+    }
+    
+    const url = item.link || ""
+    
+    // 2. YouTube Auto-Thumb
+    if (url.includes("youtube.com") || url.includes("youtu.be")) {
+      const videoId = url.includes("v=")
+        ? url.split("v=")[1]?.split("&")[0]
+        : url.split("/").pop()
+      setSrc(`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`)
+      return
+    }
+    
+    // 3. TikTok / Instagram Auto-Thumb via oEmbed API
+    if (url.includes("tiktok.com") || url.includes("vt.tiktok.com") || url.includes("instagram.com")) {
+      fetch(`/api/oembed?url=${encodeURIComponent(url)}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.thumbnail_url) setSrc(data.thumbnail_url)
+          else setSrc("https://images.unsplash.com/photo-1626544827763-d516dce335e2?q=80&w=600&auto=format&fit=crop")
+        })
+        .catch(() => setSrc("https://images.unsplash.com/photo-1626544827763-d516dce335e2?q=80&w=600&auto=format&fit=crop"))
+      return
+    }
+    
+    // 4. Default Fallback
+    setSrc("https://images.unsplash.com/photo-1626544827763-d516dce335e2?q=80&w=600&auto=format&fit=crop")
+  }, [item])
+
+  if (!src) return <div className="w-full h-full bg-[#E5E7EB] dark:bg-[#222] animate-pulse absolute inset-0" />
+
+  return (
+    <Image
+      src={src}
+      alt={item.name}
+      fill
+      className="object-cover transition-all duration-700 grayscale group-hover:grayscale-0 group-hover:scale-110"
+    />
+  )
 }
 
 function CategoryBlock({ category, isInView, catIndex }: { category: any, isInView: boolean, catIndex: number }) {
@@ -84,12 +121,7 @@ function CategoryBlock({ category, isInView, catIndex }: { category: any, isInVi
                 <span className="sr-only">View Project</span>
               </a>
               
-              <Image
-                src={getAutoThumb(item)}
-                alt={item.name}
-                fill
-                className="object-cover transition-all duration-700 grayscale group-hover:grayscale-0 group-hover:scale-110"
-              />
+              <AutoImage item={item} />
               
               {/* Hover Overlay - Desktop */}
               <div className="absolute inset-0 bg-[#bf4b4b]/90 opacity-0 group-hover:opacity-100 transition-opacity duration-500 hidden sm:flex flex-col items-center justify-center p-6 text-center z-10">
