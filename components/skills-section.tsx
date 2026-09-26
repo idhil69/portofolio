@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useState, useRef, useEffect } from "react"
 import { motion, useInView } from "framer-motion"
@@ -68,8 +68,8 @@ export function SkillsSection() {
                 transition={{ delay: index * 0.1, duration: 0.5 }}
                 className="group flex flex-col items-center"
               >
-                <div className="w-[175px] h-[175px] mx-auto text-center flex items-center justify-center text-[56px] text-[#bf4b4b] rounded-full border border-[#bf4b4b] mb-10 transition-all duration-300 group-hover:bg-[#bf4b4b] group-hover:text-white group-hover:shadow-[0_15px_30px_rgba(224,67,67,0.3)]">
-                  <Icon className="w-16 h-16 transition-transform duration-300 group-hover:scale-125" />
+                <div className="w-[130px] h-[130px] mx-auto text-center flex items-center justify-center text-[56px] text-[#bf4b4b] rounded-full border border-[#bf4b4b] mb-10 transition-all duration-300 group-hover:bg-[#bf4b4b] group-hover:text-white group-hover:shadow-[0_15px_30px_rgba(224,67,67,0.3)]">
+                  <Icon className="w-12 h-12 transition-transform duration-300 group-hover:scale-125" />
                 </div>
                 <h2 className="text-[15px] text-[#353535] dark:text-gray-200 uppercase font-bold tracking-widest relative pb-5 after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-[65px] after:h-[1px] after:bg-[#CCCCCC] dark:after:bg-gray-700">
                   {skill.name}

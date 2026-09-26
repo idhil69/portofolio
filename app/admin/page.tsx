@@ -655,10 +655,20 @@ export default function AdminPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 {data.skills.main.map((skill: any, index: number) => (
-                  <div key={index} className="flex gap-4 items-center border p-3 rounded-xl">
+                  <div key={index} className="flex gap-3 items-center border p-3 rounded-xl">
+                    {/* Icon Preview */}
+                    <div className="flex flex-col items-center gap-1 flex-shrink-0">
+                      <div className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-primary">
+                        <span className="text-xs font-mono text-center leading-tight line-clamp-1 px-1">{skill.icon?.slice(0, 3) || '?'}</span>
+                      </div>
+                    </div>
                     <div className="space-y-1 flex-1">
                       <Label>Skill Name</Label>
                       <Input value={skill.name} onChange={(e) => updateSkill('main', index, "name", e.target.value)} />
+                    </div>
+                    <div className="space-y-1 w-36">
+                      <Label>Icon (Lucide Name)</Label>
+                      <Input value={skill.icon || ''} onChange={(e) => updateSkill('main', index, "icon", e.target.value)} placeholder="Film, PenTool..." />
                     </div>
                     <div className="space-y-1 w-24">
                       <Label>Level (1-100)</Label>
@@ -679,10 +689,20 @@ export default function AdminPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 {data.skills.additional.map((skill: any, index: number) => (
-                  <div key={index} className="flex gap-4 items-center border p-3 rounded-xl">
+                  <div key={index} className="flex gap-3 items-center border p-3 rounded-xl">
+                    {/* Icon Preview */}
+                    <div className="flex flex-col items-center gap-1 flex-shrink-0">
+                      <div className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-primary">
+                        <span className="text-xs font-mono text-center leading-tight line-clamp-1 px-1">{skill.icon?.slice(0, 3) || '?'}</span>
+                      </div>
+                    </div>
                     <div className="space-y-1 flex-1">
                       <Label>Skill Name</Label>
                       <Input value={skill.name} onChange={(e) => updateSkill('additional', index, "name", e.target.value)} />
+                    </div>
+                    <div className="space-y-1 w-36">
+                      <Label>Icon (Lucide Name)</Label>
+                      <Input value={skill.icon || ''} onChange={(e) => updateSkill('additional', index, "icon", e.target.value)} placeholder="Film, PenTool..." />
                     </div>
                     <div className="space-y-1 w-24">
                       <Label>Level (1-100)</Label>
