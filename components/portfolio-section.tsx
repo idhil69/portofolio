@@ -70,21 +70,13 @@ function CategoryBlock({ category, isInView, catIndex }: { category: any, isInVi
   const itemsToShow = isExpanded ? category.items : category.items.slice(0, initialCount)
   const hasMore = category.items.length > initialCount
 
-  // Determine grid columns dynamically for a neat look on desktop
-  // If exactly 4 items, 4 cols looks neat. If 6 items, 3 cols looks neat (2 rows of 3).
-  const gridDesktopClass = 
-    itemsToShow.length === 1 ? "md:grid-cols-1 lg:grid-cols-1" :
-    itemsToShow.length === 2 ? "md:grid-cols-2 lg:grid-cols-2" :
-    itemsToShow.length === 4 ? "md:grid-cols-4 lg:grid-cols-4" :
-    "md:grid-cols-3 lg:grid-cols-3"
-
   return (
     <div>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.6, delay: 0.2 }}
-        className="mb-8 text-left w-full max-w-7xl mx-auto px-4"
+        className="mb-8 text-left w-full max-w-5xl mx-auto px-4"
       >
         <button 
           onClick={() => setIsExpanded(!isExpanded)}
@@ -104,8 +96,8 @@ function CategoryBlock({ category, isInView, catIndex }: { category: any, isInVi
         </button>
       </motion.div>
 
-      {/* Grid - 2 cols on mobile, scales up adaptively on larger screens */}
-      <motion.div layout className={`grid grid-cols-2 ${gridDesktopClass} gap-1 sm:gap-0 w-full max-w-7xl mx-auto bg-white dark:bg-[#111] rounded-lg sm:rounded-none overflow-hidden`}>
+      {/* Grid - 2 cols on mobile, 3 cols on desktop. Size is constrained by max-w-5xl so they don't get too large */}
+      <motion.div layout className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-1 sm:gap-4 w-full max-w-5xl mx-auto bg-transparent overflow-hidden`}>
         <AnimatePresence mode="popLayout">
           {itemsToShow.map((item: any, index: number) => (
             <motion.div
@@ -148,7 +140,7 @@ function CategoryBlock({ category, isInView, catIndex }: { category: any, isInVi
       </motion.div>
       
       {hasMore && (
-        <div className="w-full max-w-7xl mx-auto mt-6 text-center">
+        <div className="w-full max-w-5xl mx-auto mt-6 text-center">
           <button 
             onClick={() => setIsExpanded(!isExpanded)}
             className="text-[11px] font-bold uppercase tracking-widest text-[#bf4b4b] hover:text-[#353535] dark:hover:text-white transition-colors py-2 px-6 border border-[#bf4b4b] rounded-full hover:bg-[#bf4b4b] hover:text-white"
