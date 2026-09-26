@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
-import { Trash2, Plus, Save, LogOut, KeyRound, Eye, EyeOff, CheckCircle2, Star, Mail } from "lucide-react"
+import { Trash2, Plus, Save, LogOut, KeyRound, Eye, EyeOff, CheckCircle2, Star, Mail, GripVertical, ArrowUp, ArrowDown } from "lucide-react"
 import { CropModal } from "@/components/crop-modal"
 import { useRouter } from "next/navigation"
 
@@ -270,6 +270,51 @@ export default function AdminPage() {
     setData({ ...data, portfolio: newPortfolio })
   }
 
+  // Move portfolio item up or down within a category
+  const movePortfolioItem = (categoryIndex: number, itemIndex: number, direction: 'up' | 'down') => {
+    const newPortfolio = [...data.portfolio]
+    const items = [...newPortfolio[categoryIndex].items]
+    const targetIndex = direction === 'up' ? itemIndex - 1 : itemIndex + 1
+    if (targetIndex < 0 || targetIndex >= items.length) return
+    ;[items[itemIndex], items[targetIndex]] = [items[targetIndex], items[itemIndex]]
+    newPortfolio[categoryIndex].items = items
+    setData({ ...data, portfolio: newPortfolio })
+  }
+
+  // Move entire category up or down
+  const moveCategory = (catIndex: number, direction: 'up' | 'down') => {
+    const newPortfolio = [...data.portfolio]
+    const targetIndex = direction === 'up' ? catIndex - 1 : catIndex + 1
+    if (targetIndex < 0 || targetIndex >= newPortfolio.length) return
+    ;[newPortfolio[catIndex], newPortfolio[targetIndex]] = [newPortfolio[targetIndex], newPortfolio[catIndex]]
+    setData({ ...data, portfolio: newPortfolio })
+  }
+
+  // Drag-and-drop handlers for portfolio items
+  const handleDragStart = (e: React.DragEvent, catIndex: number, itemIndex: number) => {
+    e.dataTransfer.setData('catIndex', String(catIndex))
+    e.dataTransfer.setData('itemIndex', String(itemIndex))
+    e.dataTransfer.effectAllowed = 'move'
+  }
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault()
+    e.dataTransfer.dropEffect = 'move'
+  }
+
+  const handleDrop = (e: React.DragEvent, targetCatIndex: number, targetItemIndex: number) => {
+    e.preventDefault()
+    const fromCat = parseInt(e.dataTransfer.getData('catIndex'))
+    const fromItem = parseInt(e.dataTransfer.getData('itemIndex'))
+    if (fromCat !== targetCatIndex || fromItem === targetItemIndex) return
+    const newPortfolio = [...data.portfolio]
+    const items = [...newPortfolio[fromCat].items]
+    const [moved] = items.splice(fromItem, 1)
+    items.splice(targetItemIndex, 0, moved)
+    newPortfolio[fromCat].items = items
+    setData({ ...data, portfolio: newPortfolio })
+  }
+
   // Skills Updates
   const addSkill = (type: 'main' | 'additional') => {
     const newSkills = { ...data.skills }
@@ -485,6 +530,14 @@ export default function AdminPage() {
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
+                    <div className="flex flex-col gap-0.5">
+                      <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => moveCategory(catIndex, 'up')} disabled={catIndex === 0} title="Pindah ke atas">
+                        <ArrowUp className="w-3 h-3" />
+                      </Button>
+                      <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => moveCategory(catIndex, 'down')} disabled={catIndex === data.portfolio.length - 1} title="Pindah ke bawah">
+                        <ArrowDown className="w-3 h-3" />
+                      </Button>
+                    </div>
                     <Button variant="outline" size="sm" onClick={() => addPortfolioItem(catIndex)}>
                       <Plus className="w-4 h-4 mr-2" />Add Item
                     </Button>
@@ -496,47 +549,68 @@ export default function AdminPage() {
 
                 <CardContent className="space-y-4">
                   {category.items.map((item: any, itemIndex: number) => (
-                    <div key={itemIndex} className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 border rounded-xl relative group">
-                      <Button variant="destructive" size="icon" className="absolute -top-3 -right-3 w-8 h-8 opacity-0 group-hover:opacity-100 transition-opacity" onClick={() => removePortfolioItem(catIndex, itemIndex)}>
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                      <div className="space-y-2">
-                        <Label>Project Name</Label>
-                        <Input value={item.name} onChange={(e) => updatePortfolioItem(catIndex, itemIndex, "name", e.target.value)} />
+                    <div
+                      key={itemIndex}
+                      draggable
+                      onDragStart={(e) => handleDragStart(e, catIndex, itemIndex)}
+                      onDragOver={handleDragOver}
+                      onDrop={(e) => handleDrop(e, catIndex, itemIndex)}
+                      className="flex gap-2 border rounded-xl relative group bg-card hover:border-primary/40 transition-colors"
+                    >
+                      {/* Drag Handle + Up/Down Buttons */}
+                      <div className="flex flex-col items-center justify-center px-2 py-4 gap-1 border-r bg-muted/30 rounded-l-xl cursor-grab active:cursor-grabbing flex-shrink-0">
+                        <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => movePortfolioItem(catIndex, itemIndex, 'up')} disabled={itemIndex === 0} title="Pindah ke atas">
+                          <ArrowUp className="w-3 h-3" />
+                        </Button>
+                        <GripVertical className="w-4 h-4 text-muted-foreground" />
+                        <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => movePortfolioItem(catIndex, itemIndex, 'down')} disabled={itemIndex === category.items.length - 1} title="Pindah ke bawah">
+                          <ArrowDown className="w-3 h-3" />
+                        </Button>
                       </div>
-                      <div className="space-y-2">
-                        <Label>Link URL</Label>
-                        <Input value={item.link} onChange={(e) => updatePortfolioItem(catIndex, itemIndex, "link", e.target.value)} />
-                      </div>
-                      <div className="space-y-2">
-                        <Label>Description</Label>
-                        <Input value={item.description} onChange={(e) => updatePortfolioItem(catIndex, itemIndex, "description", e.target.value)} />
-                      </div>
-                      <div className="space-y-2">
-                        <Label>Thumbnail Image (Optional)</Label>
-                        <div className="flex items-center gap-4">
-                          {(() => {
-                            let previewUrl = item.image;
-                            if (!previewUrl && item.link) {
-                              const ytMatch = item.link.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
-                              if (ytMatch && ytMatch[1]) {
-                                previewUrl = `https://img.youtube.com/vi/${ytMatch[1]}/hqdefault.jpg`;
+
+                      {/* Item Fields */}
+                      <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
+                        <Button variant="destructive" size="icon" className="absolute -top-3 -right-3 w-8 h-8 opacity-0 group-hover:opacity-100 transition-opacity" onClick={() => removePortfolioItem(catIndex, itemIndex)}>
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                        <div className="space-y-2">
+                          <Label>Project Name</Label>
+                          <Input value={item.name} onChange={(e) => updatePortfolioItem(catIndex, itemIndex, "name", e.target.value)} />
+                        </div>
+                        <div className="space-y-2">
+                          <Label>Link URL</Label>
+                          <Input value={item.link} onChange={(e) => updatePortfolioItem(catIndex, itemIndex, "link", e.target.value)} />
+                        </div>
+                        <div className="space-y-2">
+                          <Label>Description</Label>
+                          <Input value={item.description} onChange={(e) => updatePortfolioItem(catIndex, itemIndex, "description", e.target.value)} />
+                        </div>
+                        <div className="space-y-2">
+                          <Label>Thumbnail Image (Optional)</Label>
+                          <div className="flex items-center gap-4">
+                            {(() => {
+                              let previewUrl = item.image;
+                              if (!previewUrl && item.link) {
+                                const ytMatch = item.link.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
+                                if (ytMatch && ytMatch[1]) {
+                                  previewUrl = `https://img.youtube.com/vi/${ytMatch[1]}/hqdefault.jpg`;
+                                }
                               }
-                            }
-                            return (
-                              <div className="w-32 aspect-video rounded-md border flex-shrink-0 bg-muted flex flex-col items-center justify-center overflow-hidden relative">
-                                {previewUrl ? (
-                                  <img src={previewUrl} alt="Thumbnail" className="w-full h-full object-cover" />
-                                ) : (
-                                  <span className="text-xs text-muted-foreground font-medium">No Image</span>
-                                )}
-                              </div>
-                            );
-                          })()}
-                          <div className="flex flex-1 gap-2">
-                            <Input value={item.image || ""} onChange={(e) => updatePortfolioItem(catIndex, itemIndex, "image", e.target.value)} placeholder="Auto from YouTube if empty" />
-                            <Input type="file" accept="image/*" className="hidden" id={`port-img-${catIndex}-${itemIndex}`} onChange={(e) => handleFileSelectForCrop(e, "portfolio", 1, { catIndex, itemIndex })} />
-                            <Button variant="outline" size="sm" onClick={() => document.getElementById(`port-img-${catIndex}-${itemIndex}`)?.click()}>Upload</Button>
+                              return (
+                                <div className="w-32 aspect-video rounded-md border flex-shrink-0 bg-muted flex flex-col items-center justify-center overflow-hidden relative">
+                                  {previewUrl ? (
+                                    <img src={previewUrl} alt="Thumbnail" className="w-full h-full object-cover" />
+                                  ) : (
+                                    <span className="text-xs text-muted-foreground font-medium">No Image</span>
+                                  )}
+                                </div>
+                              );
+                            })()}
+                            <div className="flex flex-1 gap-2">
+                              <Input value={item.image || ""} onChange={(e) => updatePortfolioItem(catIndex, itemIndex, "image", e.target.value)} placeholder="Auto from YouTube if empty" />
+                              <Input type="file" accept="image/*" className="hidden" id={`port-img-${catIndex}-${itemIndex}`} onChange={(e) => handleFileSelectForCrop(e, "portfolio", 1, { catIndex, itemIndex })} />
+                              <Button variant="outline" size="sm" onClick={() => document.getElementById(`port-img-${catIndex}-${itemIndex}`)?.click()}>Upload</Button>
+                            </div>
                           </div>
                         </div>
                       </div>
