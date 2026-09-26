@@ -19,8 +19,27 @@ function getAutoThumb(item: any): string {
 
 function CategoryBlock({ category, isInView, catIndex }: { category: any, isInView: boolean, catIndex: number }) {
   const [isExpanded, setIsExpanded] = useState(false)
-  const itemsToShow = isExpanded ? category.items : category.items.slice(0, 4)
-  const hasMore = category.items.length > 4
+  const [isMobile, setIsMobile] = useState(true) // Default to mobile for SSR
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    // Run once on mount
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  const initialCount = isMobile ? 4 : 6
+  const itemsToShow = isExpanded ? category.items : category.items.slice(0, initialCount)
+  const hasMore = category.items.length > initialCount
+
+  // Determine grid columns dynamically for a neat look on desktop
+  // If exactly 4 items, 4 cols looks neat. If 6 items, 3 cols looks neat (2 rows of 3).
+  const gridDesktopClass = 
+    itemsToShow.length === 1 ? "md:grid-cols-1 lg:grid-cols-1" :
+    itemsToShow.length === 2 ? "md:grid-cols-2 lg:grid-cols-2" :
+    itemsToShow.length === 4 ? "md:grid-cols-4 lg:grid-cols-4" :
+    "md:grid-cols-3 lg:grid-cols-3"
 
   return (
     <div>
@@ -48,8 +67,8 @@ function CategoryBlock({ category, isInView, catIndex }: { category: any, isInVi
         </button>
       </motion.div>
 
-      {/* Grid - 2 cols on mobile for gallery-like grid, scales up on larger screens */}
-      <motion.div layout className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 sm:gap-0 w-full max-w-7xl mx-auto bg-white dark:bg-[#111] rounded-lg sm:rounded-none overflow-hidden">
+      {/* Grid - 2 cols on mobile, scales up adaptively on larger screens */}
+      <motion.div layout className={`grid grid-cols-2 ${gridDesktopClass} gap-1 sm:gap-0 w-full max-w-7xl mx-auto bg-white dark:bg-[#111] rounded-lg sm:rounded-none overflow-hidden`}>
         <AnimatePresence mode="popLayout">
           {itemsToShow.map((item: any, index: number) => (
             <motion.div
